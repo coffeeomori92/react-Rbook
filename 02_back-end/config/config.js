@@ -6,7 +6,7 @@ module.exports = {
   development: {
     username: 'root',
     password: process.env.DB_PASSWORD,
-    database: 'react-node-Rbook',
+    database: 'react-Rbook',
     host: '127.0.0.1',
     dialect: 'mysql',
     logging: false
@@ -14,14 +14,14 @@ module.exports = {
   test: {
     username: 'root',
     password: process.env.DB_PASSWORD,
-    database: 'database_test',
+    database: 'react-Rbook',
     host: '127.0.0.1',
     dialect: 'mysql'
   },
   production: {
     username: 'root',
     password: process.env.DB_PASSWORD,
-    database: 'database_production',
+    database: 'react-Rbook',
     host: '127.0.0.1',
     dialect: 'mysql'
   }
