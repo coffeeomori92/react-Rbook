@@ -1,8 +1,12 @@
+import React from 'react';
+
+import AppLayout from '../components/AppLayout';
+
 const Home = () => {
   return (
-    <>
-      Hello! My Project!
-    </>
+    <AppLayout>
+      hi
+    </AppLayout>
   );
 };
 
