@@ -1,7 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import styled from 'styled-components';
-import { SearchOutlined } from '@ant-design/icons';
+import { useRouter } from 'next/router';
 
 import LoginForm from './LoginForm';
 
@@ -10,23 +9,17 @@ import {
   MenuLogo, 
   MenuRight, 
   MenuInputSearch,
-  SearchIcon
+  SearchIcon,
+  LeftSide,
+  MainContents,
+  RightSide
 } from '../styles/AppLayoutStyle';
 
-const LeftSide = styled.div`
-
-`;
-
-const MainContents = styled.div`
-
-`;
-
-const RightSide = styled.div`
-
-`;
-
 const AppLayout = ({ children }) => {
+  const router = useRouter();
   const me = false;
+  const path = router.pathname;
+  
   return (
     <>
       <Menu>
@@ -47,8 +40,11 @@ const AppLayout = ({ children }) => {
           }
         </MenuRight>
       </Menu>
+      <div style={{display: 'flex'}}>
       <LeftSide>
-        { me ? <UserProfile /> : <LoginForm /> }
+        { me && path !== '/signup' && <UserProfile />}
+        { !me && path !== '/signup' && <LoginForm /> }
+        { me && path === '/signup' && null}
       </LeftSide>
       <MainContents>
         { children }
@@ -56,6 +52,7 @@ const AppLayout = ({ children }) => {
       <RightSide>
 
       </RightSide>
+      </div>
     </>
   );
 };

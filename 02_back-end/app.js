@@ -38,13 +38,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/', (req, res) => {
-  res.send('hello node!');
+  res.send('Hello Express!');
 });
 
 app.use('/user', userRouter);
 app.use('/post', postRouter);
 app.use('/posts', postsRouter);
 
-app.listen(3065, () => {
+app.listen(8080, () => {
   console.log('🎉 Listening on http://localhost:3065');
 });

@@ -1,11 +1,6 @@
 import React from 'react';
-import styled from 'styled-components';
 
-const Form = styled.div`
-  & label {
-    display: block;
-  }
-`;
+import { Form, buttonWrapper } from '../styles/LoginFormStyle';
 
 const LoginForm = () => {
   return (

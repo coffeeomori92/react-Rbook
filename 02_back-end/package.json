@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node app"
+    "dev": "node app",
+    "start": "pm2 start app"
   },
   "author": "coffeemori",
   "license": "ISC",
@@ -20,6 +21,7 @@
     "mysql2": "^2.1.0",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
+    "pm2": "^4.4.0",
     "sequelize": "^6.2.2",
     "sequelize-cli": "^6.1.0"
   },
