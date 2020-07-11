@@ -16,7 +16,7 @@ module.exports = (sequelize, DataTypes) => {
     db.Post.hasMany(db.Image); // post.addImages, post.getImages
     db.Post.hasOne(db.Video); // post.getVideo, post.setVideo
     db.Post.belongsToMany(db.User, { through: 'Like', as: 'Likers' }) // post.addLikers, post.removeLikers
-    db.Post.belongsTo(db.Post, { as: 'SharedPost' }); // post.addRetweet
+    db.Post.belongsTo(db.Post, { as: 'SharedPost' }); // post.addSharedPost
   };
   return Post;
 };

@@ -10,6 +10,7 @@ const db = require('./models');
 const userRouter = require('./routes/user');
 const postRouter = require('./routes/post');
 const postsRouter = require('./routes/posts');
+const passportConfig = require('./passport');
 
 dotenv.config();
 const app = express();
@@ -20,6 +21,7 @@ db.sequelize.sync()
   .catch((error) => {
     console.log(error);
   });
+passportConfig();
 
 app.use(morgan('dev'));
 app.use(cors({
@@ -46,5 +48,5 @@ app.use('/post', postRouter);
 app.use('/posts', postsRouter);
 
 app.listen(8080, () => {
-  console.log('🎉 Listening on http://localhost:3065');
+  console.log('🎉 Listening on http://localhost:8080');
 });

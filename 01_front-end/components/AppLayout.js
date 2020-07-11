@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-
+import { useSelector } from 'react-redux';
 import LoginForm from './LoginForm';
-
+import UserProfile from './UserProfile';
+import useInput from '../customHooks/useInput';
 import { 
   Menu, 
   MenuLogo, 
@@ -16,10 +17,15 @@ import {
 } from '../styles/AppLayoutStyle';
 
 const AppLayout = ({ children }) => {
+  const [searchInput ,onChangeSearchInput] = useInput('');
+  const { me } = useSelector(state => state.user);
   const router = useRouter();
-  const me = false;
   const path = router.pathname;
-  
+
+  const onSearch = useCallback(() => {
+    router.push(`/hashtag/${searchInput}`);
+  }, [searchInput]);
+
   return (
     <>
       <Menu>
