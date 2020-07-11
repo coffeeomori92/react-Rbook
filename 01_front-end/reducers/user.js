@@ -1,5 +1,19 @@
 import produce from '../util/ES5_produce';
-import { SIGN_UP_REQUEST, SIGN_UP_SUCCESS, SIGN_UP_FAILURE, LOG_IN_REQUEST, LOG_IN_SUCCESS, LOG_IN_FAILURE } from './constants/user';
+import { 
+  SIGN_UP_REQUEST, 
+  SIGN_UP_SUCCESS, 
+  SIGN_UP_FAILURE, 
+  LOG_IN_REQUEST, 
+  LOG_IN_SUCCESS, 
+  LOG_IN_FAILURE, 
+  LOG_OUT_REQUEST, 
+  LOG_OUT_SUCCESS, 
+  LOG_OUT_FAILURE, 
+  CHANGE_NICKNAME_REQUEST,
+  CHANGE_NICKNAME_SUCCESS,
+  CHANGE_NICKNAME_FAILURE,
+  ADD_POST_TO_ME,
+  REMOVE_POST_OF_ME} from './constants/user';
 
 export const initialState = {
   me: null,
@@ -13,6 +27,9 @@ export const initialState = {
   logoutLoading: false,
   logoutDone: false,
   logoutError: null,
+  changeNicknameLoading: false,
+  changeNicknameDone: false,
+  changeNicknameError: null,
 };
 
 const reducer = (state = initialState, action) => produce(state, draft => {
@@ -61,6 +78,27 @@ const reducer = (state = initialState, action) => produce(state, draft => {
       draft.logOutLoading = false;
       draft.logOutDone = false;
       draft.logOutError = action.error;
+      break;
+    case CHANGE_NICKNAME_REQUEST:
+      draft.changeNicknameLoading = true;
+      draft.changeNicknameError = null;
+      draft.changeNicknameDone = false;
+      break;
+    case CHANGE_NICKNAME_SUCCESS:
+      draft.me.nickname = action.data.nickname;
+      draft.changeNicknameLoading = false;
+      draft.changeNicknameDone = true;
+      break;
+    case CHANGE_NICKNAME_FAILURE:
+      draft.changeNicknameLoading = false;
+      draft.changeNicknameDone = false;
+      draft.changeNicknameError = action.error;
+      break;
+    case ADD_POST_TO_ME:
+      draft.me.Posts.unshift({ id: action.data });
+      break;
+    case REMOVE_POST_OF_ME:
+      draft.me.Posts = draft.me.Posts.filter((v) => v.id !== action.data);
       break;
     default:
       break;

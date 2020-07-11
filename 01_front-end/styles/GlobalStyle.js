@@ -9,13 +9,13 @@ const GlobalStyle = createGlobalStyle`
   html,
   body {
     height: 100%;
-    min-width: 500px;
+    min-width: 1120px;
   }
   body {
     background-color: #f5f5f5;
     font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
     font-size: 14px;
-    font-weight: 500;
+    font-weight: 700;
   }
   a {
     text-decoration: none;
@@ -32,6 +32,8 @@ const GlobalStyle = createGlobalStyle`
   button,
   input[type="submit"] {
     cursor: pointer;
+    font-family: inherit;
+    font-weight: inherit;
   }
 `;
 
