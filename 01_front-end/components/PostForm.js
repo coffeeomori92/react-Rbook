@@ -26,6 +26,7 @@ const PostForm = () => {
     imagePaths.forEach(v => formData.append('image', v));
     videoPaths.forEach(v => formData.append('video', v));
     formData.append('content', text);
+    console.log(formData);
     return dispath({
       type: ADD_POST_REQUEST,
       data: formData
@@ -67,7 +68,10 @@ const PostForm = () => {
           <button type="button" onClick={onClickImageUpload}>イメージ</button>
         </div>
         <div>
-          <input type="file" name="video" hidden />
+          <input 
+            type="file" 
+            name="video" 
+            hidden />
           <button type="button">動画</button>
         </div>
         <div>

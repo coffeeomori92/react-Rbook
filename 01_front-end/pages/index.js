@@ -5,6 +5,7 @@ import { END } from 'redux-saga';
 import wrapper from '../store/configureStore';
 import AppLayout from '../components/AppLayout';
 import PostForm from '../components/PostForm';
+import Post from '../components/Post';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/constants/user';
 import { LOAD_POSTS_REQUEST } from '../reducers/constants/post';
 
@@ -17,7 +18,7 @@ const Home = () => {
     if(sharePostError) {
       alert(sharePostError);
     }
-  },[sharePostError]);
+  }, [sharePostError]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -38,6 +39,7 @@ const Home = () => {
   return (
     <AppLayout>
       {me && <PostForm />}
+      {mainPosts.map(post => (<Post key={post.id} post={post} />))}
     </AppLayout>
   );
 };

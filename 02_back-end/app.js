@@ -19,7 +19,7 @@ db.sequelize.sync()
     console.log('✅ Database is connected');
   })
   .catch((error) => {
-    console.log(error);
+    console.error(error);
   });
 passportConfig();
 

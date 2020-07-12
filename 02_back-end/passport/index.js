@@ -12,7 +12,7 @@ module.exports = () => {
       const user = await User.findOne({ where: { id } });
       done(null, user); // req.user
     } catch(error) {
-      console.log(error);
+      console.error(error);
       done(error);
     }
   });

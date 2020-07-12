@@ -25,6 +25,7 @@
   },
   "devDependencies": {
     "@ant-design/icons": "^4.2.1",
+    "babel-plugin-styled-components": "^1.10.7",
     "redux-devtools-extension": "^2.13.8"
   }
 }

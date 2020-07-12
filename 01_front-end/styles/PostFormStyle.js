@@ -3,6 +3,7 @@ import styled from 'styled-components';
 export const Form = styled.form`
   width: 100%;
   background-color: #F5F5F5;
+  margin-bottom: 20px;
   textarea {
     width: 100%;
     height: 100px;

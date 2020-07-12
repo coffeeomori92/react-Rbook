@@ -1,5 +1,4 @@
 import produce from '../util/ES5_produce';
-
 import { 
   LOAD_POSTS_REQUEST, 
   LOAD_POSTS_SUCCESS, 
@@ -17,7 +16,6 @@ import {
   UPLOAD_IMAGES_SUCCESS,
   UPLOAD_IMAGES_FAILURE
 } from './constants/post';
-
 export const initialState = {
   mainPosts: [],
   singlePost: null,
