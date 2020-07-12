@@ -2,8 +2,8 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
-
 const { isLoggedIn } = require('./middlewares');
+const { Post, Hashtag, Video, Comment, Image, User } = require('../models');
 
 const router = express.Router();
 
@@ -20,6 +20,8 @@ try {
   fs.mkdirSync('uploaded_videos');
   console.log('✅ uploaded_videos is created');
 }
+
+const upload = multer();
 
 const upload_image = multer({
   storage: multer.diskStorage({
@@ -49,6 +51,61 @@ const upload_video = multer({
   limits: { fileSize: 150 * 1024 * 1024 } // 150MB
 });
 
+// TODO
+router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
+  try {
+    const hashtags = req.body.content.match(/#[^\s#]+/g);
+    const post = await Post.create({
+      content: req.body.content,
+      UserId: req.user.id
+    });
+    if(hashtags) {
+      const result = await Promise.all(hashtags.map(v => Hashtag.findOrCreate({
+        where: { name: v.slice(1).toLowerCase() }
+      })));
+      await post.addHashtags(result.map(v => v[0]));
+    }
+    if(req.body.image) {
+      if(Array.isArray(req.body.image)) {
+        const images = await Promise.all(req.body.image.map(v => Image.create({ src: image })));
+        await post.addImages(images);
+      } else {
+        const image = await Image.create({ src: req.body.image });
+        await post.addImage(image);
+      }
+    }
+    if(req.body.video) {
+      const video = await Video.create({ src: req.body.video });
+      await post.addVideo(video);
+    }
+    const fullPost = await Post.findOne({
+      where: { id: post.id },
+      include: [{
+        model: Image
+      }, {
+        model: Video
+      }, {
+        model: Comment,
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname']
+        }]
+      }, {
+        model: User,
+        attributes: ['id', 'nickname']
+      }, {
+        model: User,
+        as: 'Likers',
+        attributes: ['id']
+      }]
+    });
+    res.status(201).json(fullPost);
+  } catch(error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.post('/images', isLoggedIn, upload_image.array('image'), (req, res, next) => {
   console.log(req.files);
   res.json(req.files.map(v => v.filename));
@@ -57,6 +114,68 @@ router.post('/images', isLoggedIn, upload_image.array('image'), (req, res, next)
 
 router.post('/video', isLoggedIn, upload_video.single('video'), (req, res, next) => {
   console.log(req.files);
+});
+
+router.get('/:postId', async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId }
+    });
+    if(!post) {
+      return res.status(400).send('存在しない投稿です。');
+    }
+    const fullPost = await Post.findOne({
+      where: { id: post.id },
+      include: [{
+        model: Post,
+        as: 'SharedPost',
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname']
+        }, {
+          model: Image
+        }, {
+          model: Video
+        }]
+      }, {
+        model: User,
+        attributes: ['id', 'nickname']
+      }, {
+        model: User,
+        as: 'Likers',
+        attributes: ['id', 'nickname']
+      }, {
+        model: Image
+      }, {
+        model: Video
+      }, {
+        model: Comment,
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname']
+        }]
+      }]
+    });
+    res.status(200).json(fullPost);
+  } catch(error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.delete('/:postId', isLoggedIn, async (req, res, next) => {
+  try {
+    await Post.destroy({
+      where: { 
+        id: req.params.postId,
+        UserId: req.user.id 
+      }
+    });
+    res.status(200).json({ PostId: parseInt(req.params.postId, 10) });
+  } catch(error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 module.exports = router;
