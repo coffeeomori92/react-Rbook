@@ -1,14 +1,15 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../customHooks/useInput';
-import { ADD_POST_REQUEST } from '../reducers/constants/post';
+import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../reducers/constants/post';
+import { Form, ButtonArea } from '../styles/PostFormStyle';
 
 const PostForm = () => {
   const { imagePaths, videoPaths, addPostDone } = useSelector(state => state.post);
-  console.log('aaaaaaa', imagePaths);
   const dispath = useDispatch();
   const [text, onChangeText, setText] = useInput('');
-  const upload = useRef();
+  const imagesUpload = useRef();
+  const videoUpload = useRef();
 
   useEffect(() => {
     if(addPostDone) {
@@ -22,8 +23,8 @@ const PostForm = () => {
       return alert('内容を書いてください。');
     }
     const formData = new FormData();
-    //imagePaths.forEach(v => formData.append('image', v));
-    //videoPaths.forEach(v => formData.append('video', v));
+    imagePaths.forEach(v => formData.append('image', v));
+    videoPaths.forEach(v => formData.append('video', v));
     formData.append('content', text);
     return dispath({
       type: ADD_POST_REQUEST,
@@ -31,16 +32,49 @@ const PostForm = () => {
     });
   }, [text, imagePaths, videoPaths]);
 
-  const onClickUpload = useCallback(e => {
+  const onClickImageUpload = useCallback(e => {
+    imagesUpload.current.click();
+  }, [imagesUpload.current]);
 
+  const onChangeImages = useCallback(e => {
+    const imagesFormData = new FormData();
+    [].forEach.call(e.target.files, v => {
+      imagesFormData.append('image', v)
+    });
+    dispath({
+      type: UPLOAD_IMAGES_REQUEST,
+      data: imagesFormData
+    });
   }, []);
 
   return (
-    <form encType="multipart/form-data" onSubmit={onSubmitForm}>
-      <textarea>
-        
-      </textarea>
-    </form>
+    <Form encType="multipart/form-data" onSubmit={onSubmitForm}>
+      <textarea
+        value={text}
+        onChange={onChangeText}
+        placeholder="どんな素晴らしい起き事があったんですか？"
+        maxLength={200}
+      />
+      <ButtonArea>
+        <div>
+          <input 
+            type="file" 
+            name="images"
+            ref={imagesUpload}
+            onChange={onChangeImages}
+            multiple 
+            hidden/>
+          <button type="button" onClick={onClickImageUpload}>イメージ</button>
+        </div>
+        <div>
+          <input type="file" name="video" hidden />
+          <button type="button">動画</button>
+        </div>
+        <div>
+          <button type="submit" onClick={onSubmitForm}>登録</button>
+        </div>
+      </ButtonArea>
+    </Form>
   );
 };
 

@@ -35,6 +35,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: inherit;
     font-weight: inherit;
   }
+  input::placeholder,
+  textarea::placeholder {
+    font-family: 'Noto Sans JP', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
 `;
 
 export default GlobalStyle;

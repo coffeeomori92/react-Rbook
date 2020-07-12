@@ -1,6 +1,8 @@
 import axois from 'axios';
-import Axios from 'axios';
+import axios from 'axios';
 
-export const loadPostsAPI = data => axois.get(`/post${data}`);
-export const addPostAPI = data => axois.post(`/post`, data);
-export const removePostAPI = data => axois.post(`/post/${data}`);
+export const loadPostsAPI = data => axios.get(`/posts?lastId=${data || 0}`);
+export const loadPostAPI = data => axios.get(`/post/${data}`);
+export const addPostAPI = data => axios.post(`/post`, data);
+export const removePostAPI = data => axios.post(`/post/${data}`);
+export const uploadImagesAPI = data => axios.post('/post/images', data);

@@ -3,7 +3,6 @@ import styled from 'styled-components';
  export const Profile = styled.div`
   background-color: white;
   width: 100%;
-  height: 100%;
   padding-left: 5px;
   padding-right: 5px;
   padding-top: 3px;

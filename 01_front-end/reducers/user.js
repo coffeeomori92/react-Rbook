@@ -13,7 +13,10 @@ import {
   CHANGE_NICKNAME_SUCCESS,
   CHANGE_NICKNAME_FAILURE,
   ADD_POST_TO_ME,
-  REMOVE_POST_OF_ME} from './constants/user';
+  REMOVE_POST_OF_ME,
+  LOAD_MY_INFO_REQUEST,
+  LOAD_MY_INFO_SUCCESS,
+  LOAD_MY_INFO_FAILURE} from './constants/user';
 
 export const initialState = {
   me: null,
@@ -27,6 +30,9 @@ export const initialState = {
   logoutLoading: false,
   logoutDone: false,
   logoutError: null,
+  loadMyInfoLoading: false,
+  loadMyInfoDone: false,
+  loadMyInfoError: null,
   changeNicknameLoading: false,
   changeNicknameDone: false,
   changeNicknameError: null,
@@ -78,6 +84,20 @@ const reducer = (state = initialState, action) => produce(state, draft => {
       draft.logOutLoading = false;
       draft.logOutDone = false;
       draft.logOutError = action.error;
+      break;
+    case LOAD_MY_INFO_REQUEST:
+      draft.loadMyInfoLoading = true;
+      draft.loadMyInfoError = null;
+      draft.loadMyInfoDone = false;
+      break;
+    case LOAD_MY_INFO_SUCCESS:
+      draft.loadMyInfoLoading = false;
+      draft.me = action.data;
+      draft.loadMyInfoDone = true;
+      break;
+    case LOAD_MY_INFO_FAILURE:
+      draft.loadMyInfoLoading = false;
+      draft.loadMyInfoError = action.error;
       break;
     case CHANGE_NICKNAME_REQUEST:
       draft.changeNicknameLoading = true;

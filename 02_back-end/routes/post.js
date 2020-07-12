@@ -11,14 +11,14 @@ try {
   fs.accessSync('uploaded_images');
 } catch(error) {
   fs.mkdirSync('uploaded_images');
-  console.log('uploaded_images is created');
+  console.log('✅ uploaded_images is created');
 }
 
 try {
   fs.accessSync('uploaded_videos');
 } catch(error) {
   fs.mkdirSync('uploaded_videos');
-  console.log('uploaded_videos is created');
+  console.log('✅ uploaded_videos is created');
 }
 
 const upload_image = multer({
@@ -47,6 +47,16 @@ const upload_video = multer({
     }
   }),
   limits: { fileSize: 150 * 1024 * 1024 } // 150MB
+});
+
+router.post('/images', isLoggedIn, upload_image.array('image'), (req, res, next) => {
+  console.log(req.files);
+  res.json(req.files.map(v => v.filename));
+  // res.json(req.files.map(v => v.location.replace(/\/original\//, '/thumb/')));
+});
+
+router.post('/video', isLoggedIn, upload_video.single('video'), (req, res, next) => {
+  console.log(req.files);
 });
 
 module.exports = router;

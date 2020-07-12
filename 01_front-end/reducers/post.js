@@ -9,7 +9,13 @@ import {
   ADD_POST_FAILURE,
   REMOVE_POST_REQUEST,
   REMOVE_POST_SUCCESS,
-  REMOVE_POST_FAILURE
+  REMOVE_POST_FAILURE,
+  SHARE_POST_REQUEST,
+  SHARE_POST_SUCCESS,
+  SHARE_POST_FAILURE,
+  UPLOAD_IMAGES_REQUEST,
+  UPLOAD_IMAGES_SUCCESS,
+  UPLOAD_IMAGES_FAILURE
 } from './constants/post';
 
 export const initialState = {
@@ -30,6 +36,12 @@ export const initialState = {
   removePostLoading: false,
   removePostDone: false,
   removePostError: null,
+  sharePostLoading: false,
+  sharePostDone: false,
+  sharePostError: null,
+  uploadImagesLoading: false,
+  uploadImagesDone: false,
+  uploadImagesError: null,
 };
 
 const reducer = (state = initialState, action) => produce(state, draft => {
@@ -79,6 +91,38 @@ const reducer = (state = initialState, action) => produce(state, draft => {
     case REMOVE_POST_FAILURE:
       draft.removePostLoading = false;
       draft.removePostError = action.error;
+      break;
+    case UPLOAD_IMAGES_REQUEST:
+      draft.uploadImagesLoading = true;
+      draft.uploadImagesDone = false;
+      draft.uploadImagesError = null;
+      break;
+    case UPLOAD_IMAGES_SUCCESS: {
+      draft.imagePaths = draft.imagePaths.concat(action.data);
+      draft.uploadImagesLoading = false;
+      draft.uploadImagesDone = true;
+      break;
+    }
+    case UPLOAD_IMAGES_FAILURE:
+      draft.uploadImagesLoading = false;
+      draft.uploadImagesDone = false;
+      draft.uploadImagesError = action.error;
+      break;
+    case SHARE_POST_REQUEST:
+      draft.sharePostLoading = true;
+      draft.sharePostDone = false;
+      draft.sharePostError = null;
+      break;
+    case SHARE_POST_SUCCESS: {
+      draft.sharePostLoading = false;
+      draft.sharePostDone = true;
+      draft.mainPosts.unshift(action.data);
+      break;
+    }
+    case SHARE_POST_FAILURE:
+      draft.sharePostLoading = false;
+      draft.sharePostDone = false;
+      draft.sharePostError = action.error;
       break;
   }
 });
