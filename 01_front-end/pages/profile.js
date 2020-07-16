@@ -2,23 +2,25 @@ import React from 'react';
 import Head from 'next/head';
 import axios from 'axios';
 import wrapper from '../store/configureStore';
+import { END } from 'redux-saga';
 import AppLayout from '../components/AppLayout';
-import SignupForm from '../components/SignupForm';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/constants/user';
 
-const Signup = () => {
+const Profile = () => {
   return (
-    <AppLayout>
-        <Head>
-          <title>新規登録 | Rbook</title>
-        </Head>
-        <SignupForm />
-    </AppLayout>
+    <>
+      <Head>
+        <title>プロフィール | Rbook</title>
+      </Head>
+      <AppLayout>
+
+      </AppLayout>
+    </>
   );
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-  console.log('getServerSideProps_signup start');
+  console.log('getServerSideProps_profile start');
   console.log(context.req.headers);
   const cookie = context.req ? context.req.headers.cookie : '';
   axios.defaults.headers.Cookie = '';
@@ -29,8 +31,8 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     type: LOAD_MY_INFO_REQUEST
   });
   context.store.dispatch(END);
-  console.log('getServerSideProps_signup end');
+  console.log('getServerSideProps_profile end');
   await context.store.sagaTask.toPromise();
 });
 
-export default Signup;
+export default Profile;

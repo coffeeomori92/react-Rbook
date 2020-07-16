@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
 
-import { Form, ErrorMsg } from '../styles/SignupFormStyle';
+import { Form, ErrorMsg, Label, LabelLast, FlexDiv, ButtonWrapper } from '../styles/SignupFormStyle';
 import { SIGN_UP_REQUEST } from '../reducers/constants/user';
 
 const SignupForm = () => {
@@ -47,48 +47,48 @@ const SignupForm = () => {
   }, [email, nickname, password, passwordCheck]);
  
   return (
-    <>
+    <FlexDiv>
       <Form onSubmit={onSubmitForm}>
-        <label>メール
+        <Label>メール
           <input
             type="email"
             value={email}
             onChange={onChangeEmail}
             required
           />
-        </label>
-        <label>ニックネーム
+        </Label>
+        <Label>ニックネーム
           <input
             type="text"
             value={nickname}
             onChange={onChangeNickname}
             required
           />
-        </label>
-        <label>パスワード
+        </Label>
+        <Label>パスワード
           <input
             type="password"
             value={password}
             onChange={onChangePassword}
             required
           />
-        </label>
-        <label>パスワードチェック
+        </Label>
+        <LabelLast>パスワードチェック
           <input
             type="password"
             value={passwordCheck}
             onChange={onChangePasswordCheck}
             required
           />
-        </label>
-        <div>
-          {passwordError && passwordCheck !== '' && <ErrorMsg>パスワードが一致しません。</ErrorMsg>}
-        </div>
-        <div>
+          <div>
+            {passwordError && passwordCheck !== '' && <ErrorMsg>パスワードが一致しません。</ErrorMsg>}
+          </div>
+        </LabelLast>
+        <ButtonWrapper>
           <button>登録</button>
-        </div>
+        </ButtonWrapper>
       </Form>
-    </>
+    </FlexDiv>
   );
 };
 

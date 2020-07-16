@@ -23,16 +23,22 @@ export const ButtonArea = styled.div`
     }
   }
   button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    padding-top: 7px;
-    padding-bottom: 7px;
-    background-color: #40A9FF;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    background-color: #f5f5f5;
     border: none;
-    border-radius: 7px;
-    color:#FFFFFF;
+    border-radius: 15px;
+    color: #5352ed;
     font-weight: 200;
-    font-size: 13px;
-    --webkit-appearance: none;
-    box-shadow: 2px 2.5px 4px -2px rgba(201,201,201,1);
+    font-size: 25px;
+    outline: none;
+    span:nth-child(2) {
+      margin-left: 10px;
+      font-size: 17px;
+    }
   }
 `;

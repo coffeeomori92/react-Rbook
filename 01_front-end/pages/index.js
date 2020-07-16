@@ -45,7 +45,7 @@ const Home = () => {
 };
 
 export const getServerSideProps = wrapper.getServerSideProps(async (context) => {
-  console.log('getServerSideProps START');
+  console.log('getServerSideProps_home START');
   console.log(context.req.headers);
   const cookie = context.req ? context.req.headers.cookie : '';
   axois.defaults.headers.Cookie = '';
@@ -59,7 +59,7 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
     type: LOAD_POSTS_REQUEST
   });
   context.store.dispatch(END);
-  console.log('getServerSideProps END');
+  console.log('getServerSideProps_home END');
   await context.store.sagaTask.toPromise();
 });
 

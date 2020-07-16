@@ -2,7 +2,7 @@ import React, { useEffect, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../customHooks/useInput';
 import { LOG_IN_REQUEST } from '../reducers/constants/user';
-import { Form, buttonWrapper } from '../styles/LoginFormStyle';
+import { Form, ButtonWrapper } from '../styles/LoginFormStyle';
 
 const LoginForm = () => {
   const { loginLoading, loginError } = useSelector(state => state.user);
@@ -43,9 +43,9 @@ const LoginForm = () => {
               required
             />
           </label>
-          <div>
+          <ButtonWrapper>
             <button>ログイン</button>
-          </div>
+          </ButtonWrapper>
       </Form>
     </>
   );

@@ -1,5 +1,6 @@
 import React, { useEffect, useCallback, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { VideoCameraAddOutlined, CameraOutlined, CloudUploadOutlined } from '@ant-design/icons';
 import useInput from '../customHooks/useInput';
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../reducers/constants/post';
 import { Form, ButtonArea } from '../styles/PostFormStyle';
@@ -65,17 +66,17 @@ const PostForm = () => {
             onChange={onChangeImages}
             multiple 
             hidden/>
-          <button type="button" onClick={onClickImageUpload}>イメージ</button>
+          <button type="button" onClick={onClickImageUpload}><CameraOutlined /> <span>イメージ</span></button>
         </div>
         <div>
           <input 
             type="file" 
             name="video" 
             hidden />
-          <button type="button">動画</button>
+          <button type="button"><VideoCameraAddOutlined /> <span>動画</span></button>
         </div>
         <div>
-          <button type="submit" onClick={onSubmitForm}>登録</button>
+          <button type="submit" onClick={onSubmitForm}><CloudUploadOutlined /> <span>登録</span></button>
         </div>
       </ButtonArea>
     </Form>

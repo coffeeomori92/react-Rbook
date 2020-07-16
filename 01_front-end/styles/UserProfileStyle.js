@@ -5,7 +5,7 @@ import styled from 'styled-components';
   width: 100%;
   padding-left: 5px;
   padding-right: 5px;
-  padding-top: 3px;
+  padding-top: 5px;
   padding-bottom: 7px;
   box-shadow: 2px 2.5px 4px -2px rgba(201,201,201,1);
 `;

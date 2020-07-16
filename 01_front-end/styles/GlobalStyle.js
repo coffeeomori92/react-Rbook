@@ -9,7 +9,7 @@ const GlobalStyle = createGlobalStyle`
   html,
   body {
     height: 100%;
-    min-width: 1120px;
+    min-width: 1150px;
   }
   body {
     background-color: #f5f5f5;

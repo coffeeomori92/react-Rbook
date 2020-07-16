@@ -2,13 +2,16 @@ import React, { useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
+import { RadarChartOutlined } from '@ant-design/icons';
 import LoginForm from './LoginForm';
 import UserProfile from './UserProfile';
 import useInput from '../customHooks/useInput';
 import { 
   Menu, 
-  MenuLogo, 
-  MenuRight, 
+  MenuLogo,
+  MenuLogoImage, 
+  MenuRight,
+  MenuRightAlign,
   MenuInputSearch,
   SearchIcon,
   LeftSide,
@@ -30,20 +33,25 @@ const AppLayout = ({ children }) => {
     <>
       <Menu>
         <MenuLogo>
-          <div><Link href="/"><a>Rbook</a></Link></div>
+          <Link href="/"><MenuLogoImage><RadarChartOutlined /></MenuLogoImage></Link>
+          <Link href="/"><a>Rbook</a></Link>
         </MenuLogo>
         <MenuInputSearch>
           <form>
             <input />
-            <button><SearchIcon /></button>
+            <div><SearchIcon /></div>
           </form>
         </MenuInputSearch>
         <MenuRight>
-          {
-            me
-            ? <Link href="/profile"><a>Profile</a></Link>
-            : <Link href="/signup"><a>新規登録</a></Link>
-          }
+          <MenuRightAlign>
+            <div></div>
+            {
+              me
+              ? <div><Link href="/profile"><a>Profile</a></Link></div>
+              : <div><Link href="/signup"><a>新規登録</a></Link></div>
+            }
+            <div></div>
+          </MenuRightAlign>
         </MenuRight>
       </Menu>
       <div style={{display: 'flex'}}>
