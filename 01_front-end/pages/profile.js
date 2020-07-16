@@ -4,6 +4,9 @@ import axios from 'axios';
 import wrapper from '../store/configureStore';
 import { END } from 'redux-saga';
 import AppLayout from '../components/AppLayout';
+import EditNickname from '../components/EditNickname';
+import SubscriberList from '../components/SubscriberList';
+import ProducerList from '../components/ProducerList';
 import { LOAD_MY_INFO_REQUEST } from '../reducers/constants/user';
 
 const Profile = () => {
@@ -13,7 +16,9 @@ const Profile = () => {
         <title>プロフィール | Rbook</title>
       </Head>
       <AppLayout>
-
+        <EditNickname/>
+        <SubscriberList />
+        <ProducerList />
       </AppLayout>
     </>
   );
