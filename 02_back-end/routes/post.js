@@ -163,6 +163,131 @@ router.get('/:postId', async (req, res, next) => {
   }
 });
 
+router.post('/:postId/share', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId },
+      include: [{
+        model: Post,
+        as: 'SharedPost'
+      }]
+    });
+    if(!post) {
+      return res.status(403).send('存在しないPOSTです。');
+    }
+    if(req.user.id === post.UserId || (post.SharedPost && post.SharedPost.UserId === req.user.id)) {
+      return res.status(403).send('自分のPOSTはShareできません。');
+    }
+    const shareTargetId = post.SharedPostId || post.id;
+    const exPost = await Post.findOne({
+      where: {
+        UserId: req.user.id,
+        SharedPostId: shareTargetId
+      }
+    });
+    if(exPost) {
+      return res.status(403).send('既にShareしました。');
+    }
+    const share = await Post.create({
+      UserId: req.user.id,
+      SharedPostId: shareTargetId,
+      content: 'shared'
+    });
+    const sharedPostwithPrevPost = await Post.findOne({
+      where: { id: share.id },
+      include: [{
+        model: Post,
+        as: 'SharedPost',
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname']
+        }, {
+          model: Image
+        }, {
+          model: Video
+        }]
+      }, {
+        model: User,
+        attributes: ['id', 'nickname']
+      }, {
+        model: Image
+      }, {
+        model: Video
+      }, {
+        model: Comment,
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname']
+        }]
+      }]
+    });
+    res.status(201).json(sharedPostwithPrevPost);
+  } catch(error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// Comment
+router.post('/:postId/comment', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId }
+    });
+    if(!post) {
+      return res.status(403).send('存在しないPOSTです。');
+    }
+    const comment = await Comment.create({
+      content: req.body.content,
+      PostId: parseInt(req.params.postId, 10),
+      UserId: req.user.id
+    });
+    const fullComment = await Comment.findOne({
+      where: { id: comment.id },
+      include: [{
+        model: User,
+        attributes: ['id', 'nickname']
+      }]
+    });
+    res.status(201).json(fullComment);
+  } catch(error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// LIKE
+router.post('/:postId/like', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({
+      where: { id: req.params.postId }
+    });
+    if(!post) {
+      return res.status(403).send('存在しないPOSTです。');
+    }
+    await post.addLikers(req.user.id);
+    res.json({ PostId: post.id, UserId: req.user.id });
+  } catch(error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+// UNLIKE
+router.delete('/:postId/like', isLoggedIn, async (req, res, next) => {
+  try {
+    const post = await Post.findOne({ where: { id: req.params.postId }});
+    if(!post) {
+      return res.status(403).send('存在しないPOSTです。');
+    }
+    await post.removeLikers(req.user.id);
+    res.json({ PostId: post.id, UserId: req.user.id });
+  } catch(error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 router.delete('/:postId', isLoggedIn, async (req, res, next) => {
   try {
     await Post.destroy({
