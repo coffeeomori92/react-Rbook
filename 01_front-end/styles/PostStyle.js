@@ -4,6 +4,8 @@ import { CommentOutlined } from '@ant-design/icons';
 export const PostCard = styled.div`
   background: white;
   box-shadow: 2px 2.5px 4px -2px rgba(201,201,201,1);
+  margin-bottom: 55px;
+  border-radius: 10px;
 `;
 
 export const Avatar = styled.div`
