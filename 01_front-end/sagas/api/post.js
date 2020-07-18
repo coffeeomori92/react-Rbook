@@ -1,4 +1,3 @@
-import axois from 'axios';
 import axios from 'axios';
 
 export const loadPostsAPI = data => axios.get(`/posts?lastId=${data || 0}`);

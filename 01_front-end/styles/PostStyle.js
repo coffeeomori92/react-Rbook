@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { CommentOutlined } from '@ant-design/icons';
 
 export const PostCard = styled.div`
   background: white;
@@ -37,6 +38,7 @@ export const PostToggle = styled.div`
   padding-left: 10px;
   padding-right: 10px;
   margin-left: 2px;
+  margin-bottom: 7px;
   padding-bottom: 7px;
   div {
     cursor: pointer;
@@ -46,4 +48,13 @@ export const PostToggle = styled.div`
   div:nth-child(3) {
     margin-right: 30px;
   }
+`;
+
+export const CommentIcon = styled(CommentOutlined)`
+  outline: none;
+`;
+
+export const CommentNumber = styled.div`
+  padding-left: 10px;
+  font-size: 13.2px;
 `;

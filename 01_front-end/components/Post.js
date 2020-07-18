@@ -1,10 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
-import { LikeTwoTone, CommentOutlined, ShareAltOutlined, SettingOutlined } from '@ant-design/icons';
+import { LikeTwoTone, ShareAltOutlined, SettingOutlined } from '@ant-design/icons';
 import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST, REMOVE_POST_REQUEST, SHARE_POST_REQUEST } from '../reducers/constants/post';
 import PostImages from './PostImages';
-import { Nickname, Avatar, InitName, PostCard, PostToggle } from '../styles/PostStyle';
+import PostContent from './PostContent';
+import PostCommentForm from './PostCommentForm';
+import PostComment from './PostComment';
+import { Nickname, Avatar, InitName, PostCard, PostToggle, CommentNumber, CommentIcon } from '../styles/PostStyle';
 
 
 const Post = ({ post }) => {
@@ -69,12 +72,28 @@ const Post = ({ post }) => {
         </InitName>
         <Nickname>{post.User.nickname}</Nickname>
       </Avatar>
+      <PostContent postData={post.content} />  
       <PostToggle>
         <div><LikeTwoTone /></div>
-        <div><CommentOutlined /></div>
+        <div><CommentIcon onClick={onToggleComment} /></div>
         <div><ShareAltOutlined /></div>
         <div><SettingOutlined /></div>
       </PostToggle>
+      <CommentNumber>
+        {`返信 ${post.Comments.length}件`}
+      </CommentNumber>
+      {
+        commentFormOpened && (<PostCommentForm post={post} />)
+      }
+      {
+        post.Comments.map((v, i) => {
+          <PostComment
+            key={v.content + i} 
+            author={v.User.nickname}
+            content={v.content}
+          />
+        })
+      }
     </PostCard>
   );
 };
