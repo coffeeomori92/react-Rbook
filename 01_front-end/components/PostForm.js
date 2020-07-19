@@ -64,10 +64,9 @@ const PostForm = () => {
             type="file" 
             name="images"
             ref={imagesUpload}
-            onChange={onChangeImages}
-            multiple 
+            onChange={onChangeImages} 
             hidden/>
-          <button type="button" onClick={onClickImageUpload}><CameraOutlined /> <span>イメージ</span></button>
+          <button type="button" onClick={onClickImageUpload}><CameraOutlined /> <span>画像</span></button>
         </div>
         <div>
           <input 

@@ -106,14 +106,14 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
   }
 });
 
-router.post('/images', isLoggedIn, upload_image.array('image'), (req, res, next) => {
-  console.log(req.files);
-  res.json(req.files.map(v => v.filename));
+router.post('/images', isLoggedIn, upload_image.single('image'), (req, res, next) => {
+  console.log(req.file);
+  res.json(req.file.filename);
   // res.json(req.files.map(v => v.location.replace(/\/original\//, '/thumb/')));
 });
 
 router.post('/video', isLoggedIn, upload_video.single('video'), (req, res, next) => {
-  console.log(req.files);
+  console.log(req.file);
 });
 
 router.get('/:postId', async (req, res, next) => {
