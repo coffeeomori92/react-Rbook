@@ -4,7 +4,7 @@ export const Form = styled.form`
   display: flex;
   width: 100%;
   height: 6vh;
-  margin-top: 7px;
+  margin-bottom: 15px;
   textarea {
     width: 90%;
     resize: none;

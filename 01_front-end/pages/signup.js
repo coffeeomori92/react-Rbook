@@ -1,6 +1,7 @@
 import React from 'react';
 import Head from 'next/head';
 import axios from 'axios';
+import { END } from 'redux-saga';
 import wrapper from '../store/configureStore';
 import AppLayout from '../components/AppLayout';
 import SignupForm from '../components/SignupForm';

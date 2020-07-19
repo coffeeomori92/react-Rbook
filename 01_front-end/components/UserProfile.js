@@ -49,11 +49,15 @@ const UserProfile = () => {
               <ContentTitle>購読</ContentTitle>
             </a>
           </Link>
-          <div>{me.Producer.length}</div>
+          <div>{me.Subscriber.length}</div>
         </Content>
         <Content>
-          <ContentTitle>リスナー</ContentTitle>
-          <div>{me.Subscriber.length}</div>
+          <Link href="/profile">
+            <a>
+              <ContentTitle>リスナー</ContentTitle>
+            </a>
+          </Link>
+          <div>{me.Producer.length}</div>
         </Content>
       </Contents>
     </Profile>

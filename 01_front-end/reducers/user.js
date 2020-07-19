@@ -1,4 +1,5 @@
 import produce from '../util/ES5_produce';
+import initialState from './initialState/user';
 import { 
   SIGN_UP_REQUEST, 
   SIGN_UP_SUCCESS, 
@@ -16,27 +17,13 @@ import {
   REMOVE_POST_OF_ME,
   LOAD_MY_INFO_REQUEST,
   LOAD_MY_INFO_SUCCESS,
-  LOAD_MY_INFO_FAILURE} from './constants/user';
-
-export const initialState = {
-  me: null,
-  userInfo: null,
-  signupLoading: false,
-  signupDone: false,
-  signupError: null,
-  loginLoading: false,
-  loginDone: false,
-  loginError: null,
-  logoutLoading: false,
-  logoutDone: false,
-  logoutError: null,
-  loadMyInfoLoading: false,
-  loadMyInfoDone: false,
-  loadMyInfoError: null,
-  changeNicknameLoading: false,
-  changeNicknameDone: false,
-  changeNicknameError: null,
-};
+  LOAD_MY_INFO_FAILURE,
+  SUBSCRIBE_REQUEST,
+  UNSUBSCRIBE_REQUEST,
+  UNSUBSCRIBE_SUCCESS,
+  UNSUBSCRIBE_FAILURE,
+  SUBSCRIBE_SUCCESS,
+  SUBSCRIBE_FAILURE} from './constants/user';
 
 const reducer = (state = initialState, action) => produce(state, draft => {
   switch(action.type) {
@@ -98,6 +85,36 @@ const reducer = (state = initialState, action) => produce(state, draft => {
     case LOAD_MY_INFO_FAILURE:
       draft.loadMyInfoLoading = false;
       draft.loadMyInfoError = action.error;
+      break;
+    case SUBSCRIBE_REQUEST:
+      draft.subscribeLoading = true;
+      draft.subscribeError = null;
+      draft.subscribeDone = false;
+      break;
+    case SUBSCRIBE_SUCCESS:
+      draft.subscribeLoading = false;
+      draft.me.Subscriber.push({ id: action.data.UserId });
+      draft.subscribeDone = true;
+      draft.subscribeError = null;
+      break;
+    case SUBSCRIBE_FAILURE:
+      draft.subscribeLoading = false;
+      draft.subscribeDone = false;
+      draft.subscribeError = action.error;
+      break;
+    case UNSUBSCRIBE_REQUEST:
+      draft.unSubscribeLoading = true;
+      draft.unSubscribeError = null;
+      draft.unSubscribeDone = false;
+      break;
+    case UNSUBSCRIBE_SUCCESS:
+      draft.unSubscribeLoading = false;
+      draft.me.Subscriber = draft.me.Subscriber.filter((v) => v.id !== action.data.UserId);
+      draft.unSubscribeDone = true;
+      break;
+    case UNSUBSCRIBE_FAILURE:
+      draft.unSubscribeLoading = false;
+      draft.unSubscribeError = action.error;
       break;
     case CHANGE_NICKNAME_REQUEST:
       draft.changeNicknameLoading = true;

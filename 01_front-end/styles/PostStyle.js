@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { CommentOutlined } from '@ant-design/icons';
+import { CommentOutlined, LikeOutlined, LikeTwoTone, SettingOutlined } from '@ant-design/icons';
 
 export const PostCard = styled.div`
   background: white;
@@ -9,6 +9,7 @@ export const PostCard = styled.div`
 `;
 
 export const Avatar = styled.div`
+  position: relative;
   display: flex;
   align-items: center;
   margin-bottom: 20px;
@@ -36,6 +37,7 @@ export const Nickname = styled.div`
 
 export const PostToggle = styled.div`
   display: flex;
+  align-items: center;
   font-size: 20px;
   padding-left: 10px;
   padding-right: 10px;
@@ -52,11 +54,26 @@ export const PostToggle = styled.div`
   }
 `;
 
+export const LikeButtonIcon = styled(LikeOutlined)`
+  outline: none;
+`;
+
+export const LikeButtonTwotoneIcon = styled(LikeTwoTone)`
+  outline : none;
+`;
+
 export const CommentIcon = styled(CommentOutlined)`
+  outline: none;
+`;
+
+export const SettingIcon = styled(SettingOutlined)`
   outline: none;
 `;
 
 export const CommentNumber = styled.div`
   padding-left: 10px;
   font-size: 13.2px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #dfe6e9;
+  padding-bottom: 10px;
 `;

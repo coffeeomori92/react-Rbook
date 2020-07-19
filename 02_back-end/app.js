@@ -1,4 +1,5 @@
 const express = require('express');
+const path = require('path');
 const cors = require('cors');
 const session = require('express-session');
 const cookieParser = require('cookie-parser');
@@ -29,6 +30,7 @@ app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true // 쿠키 전달
 }));
+app.use(express.static(path.join(__dirname, 'uploaded_images')));
 app.use(express.json()); // JSON 형식 해석
 app.use(express.urlencoded({ extended: true })); // form 형식 해석
 app.use(cookieParser(process.env.COOKIE_SECRET));

@@ -1,11 +1,20 @@
 import React from 'react';
+import Link from 'next/link';
+import { Comment, Avatar, InitName, Nickname, CommentTextArea } from '../styles/PostCommentStyle';
 
-const PostComment = ({ author, content }) => {
+const PostComment = ({ author, content, authorId }) => {
   return (
-    <div>
-      {author}
-      {content}
-    </div>
+    <Comment>
+      <Avatar>
+        <InitName>
+          <Link href={`/user/${authorId}`}>
+            <a>{author[0]}</a>
+          </Link>
+        </InitName>
+        <Nickname>{author}</Nickname>
+      </Avatar>
+      <CommentTextArea>{content}</CommentTextArea>
+    </Comment>
   );
 };
 

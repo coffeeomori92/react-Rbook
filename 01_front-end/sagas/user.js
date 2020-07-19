@@ -15,7 +15,13 @@ import {
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAILURE,
-  CHANGE_NICKNAME_REQUEST
+  CHANGE_NICKNAME_REQUEST,
+  SUBSCRIBE_SUCCESS,
+  SUBSCRIBE_FAILURE,
+  UNSUBSCRIBE_SUCCESS,
+  UNSUBSCRIBE_FAILURE,
+  SUBSCRIBE_REQUEST,
+  UNSUBSCRIBE_REQUEST
 } from '../reducers/constants/user';
 import { 
   signupAPI, 
@@ -23,7 +29,9 @@ import {
   logoutAPI, 
   loadMyInfoAPI, 
   loadUserAPI,
-  changeNicknameAPI} from './api/user';
+  changeNicknameAPI,
+  unSubscribeAPI,
+  subscribeAPI} from './api/user';
 
 function* singup(action) {
   try {
@@ -120,6 +128,38 @@ function* changeNickname(action) {
   }
 }
 
+function* subscribe(action) {
+  try {
+    const result = yield call(subscribeAPI, action.data);
+    yield put({
+      type: SUBSCRIBE_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: SUBSCRIBE_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function* unSubscribe(action) {
+  try {
+    const result = yield call(unSubscribeAPI, action.data);
+    yield put({
+      type: UNSUBSCRIBE_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: UNSUBSCRIBE_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function* watchSignup() {
   yield takeLatest(SIGN_UP_REQUEST, singup);
 }
@@ -144,6 +184,14 @@ function* watchChangeNickname() {
   yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickname);
 }
 
+function* watchSubscribe() {
+  yield takeLatest(SUBSCRIBE_REQUEST, subscribe);
+}
+
+function* watchUnSubscribe() {
+  yield takeLatest(UNSUBSCRIBE_REQUEST, unSubscribe);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchSignup),
@@ -151,6 +199,8 @@ export default function* userSaga() {
     fork(watchLogout),
     fork(watchLoadMyInfo),
     fork(watchLoadUser),
-    fork(watchChangeNickname)
+    fork(watchChangeNickname),
+    fork(watchSubscribe),
+    fork(watchUnSubscribe)
   ]);
 }

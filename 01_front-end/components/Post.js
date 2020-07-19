@@ -1,20 +1,29 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Link from 'next/link';
-import { LikeTwoTone, ShareAltOutlined, SettingOutlined } from '@ant-design/icons';
-import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST, REMOVE_POST_REQUEST, SHARE_POST_REQUEST } from '../reducers/constants/post';
+import { ShareAltOutlined } from '@ant-design/icons';
+import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST, SHARE_POST_REQUEST } from '../reducers/constants/post';
 import PostImages from './PostImages';
 import PostContent from './PostContent';
 import PostCommentForm from './PostCommentForm';
 import PostComment from './PostComment';
-import { Nickname, Avatar, InitName, PostCard, PostToggle, CommentNumber, CommentIcon } from '../styles/PostStyle';
-
+import PostSettingForm from './PostSettingForm';
+import SubscribeButton from './SubscribeButton';
+import { 
+  Nickname, 
+  Avatar, 
+  InitName, 
+  PostCard, 
+  PostToggle, 
+  CommentNumber, CommentIcon, LikeButtonTwotoneIcon, LikeButtonIcon, SettingIcon } from '../styles/PostStyle';
 
 const Post = ({ post }) => {
   const dispatch = useDispatch();
-  const [commentFormOpened,  setCommentFormOpened] = useState(false);
+  const [commentFormOpened, setCommentFormOpened] = useState(false);
+  const [settingFormOpened, setSettingFormOpened] = useState(false);
   const { removePostLoading } = useSelector(state => state.post);
   const id = useSelector(state => state.user.me?.id);
+  const liked = post.Likers.find(v => v.id === id);
   
   const onClickLike = useCallback(e => {
     if(!id) {
@@ -40,15 +49,9 @@ const Post = ({ post }) => {
     setCommentFormOpened(prev => !prev);
   }, []);
 
-  const onClickRemovePost = useCallback(e => {
-    if(!id) {
-      return alert('ログインしてください。');
-    }
-    return dispatch({
-      type: REMOVE_POST_REQUEST,
-      data: post.id
-    });
-  }, [id]);
+  const onToggleSetting = useCallback(e => {
+    setSettingFormOpened(prev => !prev);
+  }, []);
 
   const onClickShare = useCallback(e => {
     if(!id) {
@@ -59,7 +62,7 @@ const Post = ({ post }) => {
       data: post.id
     });
   }, [id]);
-
+  
   return (
     <PostCard>
       {post.Images[0] && (<PostImages images={post.Images} />)}
@@ -71,13 +74,27 @@ const Post = ({ post }) => {
           </Link>
         </InitName>
         <Nickname>{post.User.nickname}</Nickname>
+        {
+          id && <SubscribeButton post={post} />
+        }
       </Avatar>
       <PostContent postData={post.content} />  
       <PostToggle>
-        <div><LikeTwoTone /></div>
+        <div>
+          {
+            liked 
+            ? <LikeButtonTwotoneIcon onClick={onClickUnLike} />
+            : <LikeButtonIcon onClick={onClickLike} />
+          }
+        </div>
         <div><CommentIcon onClick={onToggleComment} /></div>
         <div><ShareAltOutlined /></div>
-        <div><SettingOutlined /></div>
+        <div><SettingIcon onClick={onToggleSetting} /></div>
+        <div>
+          {
+            settingFormOpened && (<PostSettingForm me={id} post={post} />)
+          }
+        </div>
       </PostToggle>
       <CommentNumber>
         {`返信 ${post.Comments.length}件`}
@@ -87,11 +104,11 @@ const Post = ({ post }) => {
       }
       {
         post.Comments.map((v, i) => {
-          <PostComment
-            key={v.content + i} 
-            author={v.User.nickname}
-            content={v.content}
-          />
+          return <PostComment 
+                  key={i} 
+                  author={v.User.nickname} 
+                  content={v.content} 
+                  authorId={v.User.id} />;
         })
       }
     </PostCard>

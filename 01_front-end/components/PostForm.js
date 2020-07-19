@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { VideoCameraAddOutlined, CameraOutlined, CloudUploadOutlined } from '@ant-design/icons';
 import useInput from '../customHooks/useInput';
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST } from '../reducers/constants/post';
+import ImagePreViewer from './ImagePreViewer';
 import { Form, ButtonArea } from '../styles/PostFormStyle';
 
 const PostForm = () => {
@@ -79,6 +80,15 @@ const PostForm = () => {
           <button type="submit" onClick={onSubmitForm}><CloudUploadOutlined /> <span>登録</span></button>
         </div>
       </ButtonArea>
+      <div style={{display: 'flex'}}>
+        {
+          imagePaths.map((v, i) => {
+            return (
+              <ImagePreViewer key={v} image={v} />
+            );
+          })
+        }
+      </div>
     </Form>
   );
 };

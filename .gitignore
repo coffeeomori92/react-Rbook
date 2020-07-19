@@ -2,5 +2,6 @@ node_modules
 package-lock.json
 uploaded_images
 uploaded_videos
+03_back-up
 .next
 .env

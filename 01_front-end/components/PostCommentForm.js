@@ -25,7 +25,7 @@ const PostCommentForm = ({ post }) => {
       })
     }
     return alert('ログインしてください。');
-  }, [id]);
+  }, [id, commentText]);
 
   return (
     <Form onSubmit={onSubmitForm}>

@@ -6,5 +6,5 @@ export const addPostAPI = data => axios.post(`/post`, data);
 export const addCommentAPI = data => axios.post(`/post/${data.postId}/comment`, data);
 export const likePostAPI = data => axios.post(`/post/${data}/like`);
 export const unLikePostAPI = data => axios.delete(`/post/${data}/like`);
-export const removePostAPI = data => axios.post(`/post/${data}`);
+export const removePostAPI = data => axios.delete(`/post/${data}`);
 export const uploadImagesAPI = data => axios.post('/post/images', data);
