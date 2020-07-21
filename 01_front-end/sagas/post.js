@@ -21,7 +21,9 @@ import {
   LIKE_POST_SUCCESS,
   LIKE_POST_FAILURE,
   UNLIKE_POST_SUCCESS,
-  UNLIKE_POST_FAILURE} from '../reducers/constants/post';
+  UNLIKE_POST_FAILURE,
+  UPLOAD_VIDEO_REQUEST,
+  UPLOAD_VIDEO_SUCCESS} from '../reducers/constants/post';
 import {
   ADD_POST_TO_ME, 
   REMOVE_POST_OF_ME } from '../reducers/constants/user';
@@ -147,6 +149,22 @@ function* uploadImages(action) {
   }
 }
 
+function* uploadVideo(action) {
+  try {
+    const result = yield call(uploadVideoAPI, action.data);
+    yield put({
+      type: UPLOAD_VIDEO_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: UPLOAD_VIDEO_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function* watchLoadPosts() {
   yield throttle(5000, LOAD_POSTS_REQUEST, loadPosts);
 }
@@ -175,6 +193,10 @@ function* watchUploadImages() {
   yield takeLatest(UPLOAD_IMAGES_REQUEST, uploadImages);
 }
 
+function* watchUploadVideo() {
+  yield takeLatest(UPLOAD_VIDEO_REQUEST, uploadVideo);
+}
+
 export default function* postSaga() {
   yield all([
     fork(watchLoadPosts),
@@ -184,5 +206,6 @@ export default function* postSaga() {
     fork(watchUnlikePost),
     fork(watchRemovePost),
     fork(watchUploadImages),
+    fork(watchUploadVideo)
   ]);
 }

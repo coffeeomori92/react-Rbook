@@ -31,6 +31,9 @@ const initialState = {
   uploadImagesLoading: false,
   uploadImagesDone: false,
   uploadImagesError: null,
+  uploadVideoLoading: false,
+  uploadVideoDone: false,
+  uploadVideoError: null,
 };
 
 export default initialState;

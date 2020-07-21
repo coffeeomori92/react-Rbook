@@ -114,6 +114,7 @@ router.post('/images', isLoggedIn, upload_image.single('image'), (req, res, next
 
 router.post('/video', isLoggedIn, upload_video.single('video'), (req, res, next) => {
   console.log(req.file);
+  res.json(req.file.filename);
 });
 
 router.get('/:postId', async (req, res, next) => {

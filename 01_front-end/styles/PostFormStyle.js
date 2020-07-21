@@ -32,7 +32,6 @@ export const ButtonArea = styled.div`
     background-color: #f5f5f5;
     border: none;
     border-radius: 15px;
-    color: #5352ed;
     font-weight: 200;
     font-size: 25px;
     outline: none;
@@ -41,4 +40,26 @@ export const ButtonArea = styled.div`
       font-size: 17px;
     }
   }
+`;
+
+export const CameraIcon = styled.button`
+  color: ${
+    ({ haveImage }) => haveImage === true ? '#b2bec3' : '#5352ed'
+  };
+  cursor: ${
+    ({ haveImage }) => haveImage === true ? 'default' : 'pointer'
+  };
+`;
+
+export const VideoIcon = styled.button`
+  color: ${
+    ({ haveImage }) => haveImage === true ? '#b2bec3' : '#5352ed'
+  };
+  cursor: ${
+    ({ haveImage }) => haveImage === true ? 'default' : 'pointer'
+  };
+`;
+
+export const SubmitIcon = styled.button`
+  color: #5352ed
 `;

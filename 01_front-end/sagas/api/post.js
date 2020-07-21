@@ -8,3 +8,4 @@ export const likePostAPI = data => axios.post(`/post/${data}/like`);
 export const unLikePostAPI = data => axios.delete(`/post/${data}/like`);
 export const removePostAPI = data => axios.delete(`/post/${data}`);
 export const uploadImagesAPI = data => axios.post('/post/images', data);
+export const uploadVideoAPI = data => axios.post('/post/video', data);

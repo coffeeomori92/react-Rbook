@@ -12,9 +12,25 @@ export const ImgContainer = styled.div`
 export const Header = styled.div`
   background-color: white;
   width: 100%;
-  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  justify-items: center;
+  align-items: center;
   padding: 10px;
   border-bottom: 1px dotted #3c40c6;
+`;
+
+export const HeaderFlex = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+  div {
+    border: 1px solid red;
+    padding: 5px 10px;
+    margin-right: 40px;
+    cursor: pointer;
+  }
 `;
 
 export const Img = styled.img`

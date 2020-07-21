@@ -24,7 +24,10 @@ import {
   LIKE_POST_FAILURE,
   UNLIKE_POST_REQUEST,
   UNLIKE_POST_SUCCESS,
-  UNLIKE_POST_FAILURE
+  UNLIKE_POST_FAILURE,
+  REMOVE_IMAGE,
+  UPLOAD_VIDEO_REQUEST,
+  UPLOAD_VIDEO_SUCCESS
 } from './constants/post';
 
 const reducer = (state = initialState, action) => produce(state, draft => {
@@ -108,6 +111,22 @@ const reducer = (state = initialState, action) => produce(state, draft => {
       draft.uploadImagesDone = false;
       draft.uploadImagesError = action.error;
       break;
+    case UPLOAD_VIDEO_REQUEST:
+      draft.uploadVideoLoading = true;
+      draft.uploadVideoDone = false;
+      draft.uploadVideoError = null;
+      break;
+    case UPLOAD_VIDEO_SUCCESS: {
+      draft.videoPaths = draft.videoPaths.concat(action.data);
+      draft.uploadVideoLoading = false;
+      draft.uploadVideoDone = true;
+      break;
+    }
+    case UPLOAD_VIDEO_FAILURE:
+      draft.uploadVideoLoading = false;
+      draft.uploadVideoDone = false;
+      draft.uploadVideoError = action.error;
+      break;
     case SHARE_POST_REQUEST:
       draft.sharePostLoading = true;
       draft.sharePostDone = false;
@@ -158,6 +177,9 @@ const reducer = (state = initialState, action) => produce(state, draft => {
       draft.unlikePostDone = false;
       draft.unlikePostLoading = false;
       draft.unlikePostError = action.error;
+      break;
+    case REMOVE_IMAGE:
+      draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
       break;
     default:
       break;
