@@ -53,10 +53,10 @@ export const CameraIcon = styled.button`
 
 export const VideoIcon = styled.button`
   color: ${
-    ({ haveImage }) => haveImage === true ? '#b2bec3' : '#5352ed'
+    ({ haveVideo }) => haveVideo === true ? '#b2bec3' : '#5352ed'
   };
   cursor: ${
-    ({ haveImage }) => haveImage === true ? 'default' : 'pointer'
+    ({ haveVideo }) => haveVideo === true ? 'default' : 'pointer'
   };
 `;
 

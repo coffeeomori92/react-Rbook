@@ -109,7 +109,7 @@ const PostForm = () => {
             ref={videoUpload}
             onChange={onChageVideo}
             hidden />
-          <VideoIcon type="button" onClick={onClickVideoUpload}><VideoCameraAddOutlined /> <span>動画</span></VideoIcon>
+          <VideoIcon haveVideo={haveVideo} type="button" onClick={onClickVideoUpload}><VideoCameraAddOutlined /> <span>動画</span></VideoIcon>
         </div>
         <div>
           <SubmitIcon type="submit" onClick={onSubmitForm}><CloudUploadOutlined /> <span>登録</span></SubmitIcon>

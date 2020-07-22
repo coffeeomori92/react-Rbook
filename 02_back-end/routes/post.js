@@ -76,7 +76,7 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
     }
     if(req.body.video) {
       const video = await Video.create({ src: req.body.video });
-      await post.addVideo(video);
+      await post.setVideo(video);
     }
     const fullPost = await Post.findOne({
       where: { id: post.id },

@@ -31,6 +31,7 @@ app.use(cors({
   credentials: true // 쿠키 전달
 }));
 app.use(express.static(path.join(__dirname, 'uploaded_images')));
+app.use(express.static(path.join(__dirname, 'uploaded_videos')));
 app.use(express.json()); // JSON 형식 해석
 app.use(express.urlencoded({ extended: true })); // form 형식 해석
 app.use(cookieParser(process.env.COOKIE_SECRET));

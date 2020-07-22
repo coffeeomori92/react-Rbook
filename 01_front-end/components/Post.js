@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { ShareAltOutlined } from '@ant-design/icons';
 import { LIKE_POST_REQUEST, UNLIKE_POST_REQUEST, SHARE_POST_REQUEST } from '../reducers/constants/post';
 import PostImages from './PostImages';
+import PostVideo from './PostVideo';
 import PostContent from './PostContent';
 import PostCommentForm from './PostCommentForm';
 import PostComment from './PostComment';

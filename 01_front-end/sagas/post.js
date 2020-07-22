@@ -1,5 +1,5 @@
 import { all, put, call, fork, throttle, takeLatest } from 'redux-saga/effects';
-import { loadPostsAPI, addPostAPI, uploadImagesAPI, removePostAPI, addCommentAPI, likePostAPI, unLikePostAPI } from './api/post';
+import { loadPostsAPI, addPostAPI, uploadImagesAPI, removePostAPI, addCommentAPI, likePostAPI, unLikePostAPI, uploadVideoAPI } from './api/post';
 import { 
   LOAD_POSTS_REQUEST, 
   LOAD_POSTS_SUCCESS, 
@@ -23,7 +23,8 @@ import {
   UNLIKE_POST_SUCCESS,
   UNLIKE_POST_FAILURE,
   UPLOAD_VIDEO_REQUEST,
-  UPLOAD_VIDEO_SUCCESS} from '../reducers/constants/post';
+  UPLOAD_VIDEO_SUCCESS,
+  UPLOAD_VIDEO_FAILURE} from '../reducers/constants/post';
 import {
   ADD_POST_TO_ME, 
   REMOVE_POST_OF_ME } from '../reducers/constants/user';

@@ -27,7 +27,9 @@ import {
   UNLIKE_POST_FAILURE,
   REMOVE_IMAGE,
   UPLOAD_VIDEO_REQUEST,
-  UPLOAD_VIDEO_SUCCESS
+  UPLOAD_VIDEO_SUCCESS,
+  UPLOAD_VIDEO_FAILURE,
+  REMOVE_VIDEO
 } from './constants/post';
 
 const reducer = (state = initialState, action) => produce(state, draft => {
@@ -58,7 +60,7 @@ const reducer = (state = initialState, action) => produce(state, draft => {
       draft.addPostDone = true;
       draft.mainPosts.unshift(action.data);
       draft.imagePaths = [];
-      draft.videoPath = [];
+      draft.videoPaths = [];
       break;
     case ADD_POST_FAILURE:
       draft.addPostLoading = false;
@@ -180,6 +182,9 @@ const reducer = (state = initialState, action) => produce(state, draft => {
       break;
     case REMOVE_IMAGE:
       draft.imagePaths = draft.imagePaths.filter((v, i) => i !== action.data);
+      break;
+    case REMOVE_VIDEO:
+      draft.videoPaths = draft.videoPaths.filter((v, i) => i !== action.data);
       break;
     default:
       break;
