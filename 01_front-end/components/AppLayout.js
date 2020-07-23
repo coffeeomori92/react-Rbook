@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { RadarChartOutlined } from '@ant-design/icons';
 import LoginForm from './LoginForm';
 import UserProfile from './UserProfile';
+import SearchHashtag from './SearchHashtag';
 import useInput from '../customHooks/useInput';
 import { 
   Menu, 
@@ -37,10 +38,7 @@ const AppLayout = ({ children }) => {
           <Link href="/"><a>Rbook</a></Link>
         </MenuLogo>
         <MenuInputSearch>
-          <form>
-            <input />
-            <div><SearchIcon /></div>
-          </form>
+          <SearchHashtag />
         </MenuInputSearch>
         <MenuRight>
           <MenuRightAlign>

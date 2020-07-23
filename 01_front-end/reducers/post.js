@@ -29,7 +29,10 @@ import {
   UPLOAD_VIDEO_REQUEST,
   UPLOAD_VIDEO_SUCCESS,
   UPLOAD_VIDEO_FAILURE,
-  REMOVE_VIDEO
+  REMOVE_VIDEO,
+  LOAD_HASHTAG_POSTS_REQUEST,
+  LOAD_HASHTAG_POSTS_SUCCESS,
+  LOAD_HASHTAG_POSTS_FAILURE
 } from './constants/post';
 
 const reducer = (state = initialState, action) => produce(state, draft => {
@@ -37,7 +40,7 @@ const reducer = (state = initialState, action) => produce(state, draft => {
     case LOAD_POSTS_REQUEST:
       draft.loadPostsLoading = true;
       draft.loadPostsDone = false;
-      draft.loadPostError = null;
+      draft.loadPostsError = null;
       break;
     case LOAD_POSTS_SUCCESS:
       draft.loadPostsLoading = false;
@@ -49,6 +52,22 @@ const reducer = (state = initialState, action) => produce(state, draft => {
       draft.loadPostsLoading = false;
       draft.loadPostsDone = false;
       draft.loadPostsError = action.error;
+      break;
+    case LOAD_HASHTAG_POSTS_REQUEST:
+      draft.loadHashtagPostsLoading = true;
+      draft.loadHashtagPostsDone = false;
+      draft.loadHashtagPostsError = null;
+      break;
+    case LOAD_HASHTAG_POSTS_SUCCESS:
+      draft.loadHashtagPostsLoading = false;
+      draft.loadHashtagPostsDone = true;
+      draft.mainPosts = draft.mainPosts.concat(action.data);
+      draft.hasMorePosts = action.data.length === 10;
+      break;
+    case LOAD_HASHTAG_POSTS_FAILURE:
+      draft.loadHashtagPostsLoading = false;
+      draft.loadHashtagPostsDone = false;
+      draft.loadHashtagPostsError = action.error;
       break;
     case ADD_POST_REQUEST:
       draft.addPostLoading = true;

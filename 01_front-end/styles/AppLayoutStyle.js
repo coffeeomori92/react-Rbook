@@ -1,5 +1,4 @@
 import styled from 'styled-components';
-import { SearchOutlined } from '@ant-design/icons';
 
 export const Menu = styled.div`
   display: flex;
@@ -29,7 +28,7 @@ export const MenuInputSearch = styled.div`
   display: flex;
   justify-content: center;
   width: 60%;
-  form {
+  div {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -78,8 +77,4 @@ export const MainContents = styled.div`
 
 export const RightSide = styled.div`
   width: 20%;
-`;
-
-export const SearchIcon = styled(SearchOutlined)`
-  font-size: 12px;
 `;

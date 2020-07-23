@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 export const loadPostsAPI = data => axios.get(`/posts?lastId=${data || 0}`);
+export const loadHashtagPostsAPI = (data, lastId) => axios.get(`/hashtag/${encodeURIComponent(data)}?lastId=${lastId || 0}`);
 export const loadPostAPI = data => axios.get(`/post/${data}`);
 export const addPostAPI = data => axios.post(`/post`, data);
 export const addCommentAPI = data => axios.post(`/post/${data.postId}/comment`, data);
