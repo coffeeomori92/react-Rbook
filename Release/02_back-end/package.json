@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
+    "test": "node app",
     "start": "pm2 start app.js"
   },
   "author": "coffeemori",
