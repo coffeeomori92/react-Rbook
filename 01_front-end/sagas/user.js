@@ -23,7 +23,13 @@ import {
   SUBSCRIBE_REQUEST,
   UNSUBSCRIBE_REQUEST,
   CHANGE_NICKNAME_SUCCESS,
-  CHANGE_NICKNAME_FAILURE
+  CHANGE_NICKNAME_FAILURE,
+  LOAD_SUBSCRIBER_REQUEST,
+  LOAD_PRODUCER_REQUEST,
+  LOAD_SUBSCRIBER_FAILURE,
+  LOAD_SUBSCRIBER_SUCCESS,
+  LOAD_PRODUCER_SUCCESS,
+  LOAD_PRODUCER_FAILURE
 } from '../reducers/constants/user';
 import { 
   signupAPI, 
@@ -33,7 +39,9 @@ import {
   loadUserAPI,
   changeNicknameAPI,
   unSubscribeAPI,
-  subscribeAPI} from './api/user';
+  subscribeAPI,
+  loadProducerAPI,
+  loadSubscriberAPI} from './api/user';
 
 function* singup(action) {
   try {
@@ -114,6 +122,38 @@ function* loadUser(action) {
   }
 }
 
+function* loadSubscriber(action) {
+  try {
+    const result = yield call(loadSubscriberAPI, action.data);
+    yield put({
+      type: LOAD_SUBSCRIBER_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_SUBSCRIBER_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
+function* loadProducer(action) {
+  try {
+    const result = yield call(loadProducerAPI, action.data);
+    yield put({
+      type: LOAD_PRODUCER_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: LOAD_PRODUCER_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function* changeNickname(action) {
   try {
     const result = yield call(changeNicknameAPI, action.data);
@@ -182,6 +222,14 @@ function* watchLoadUser() {
   yield takeLatest(LOAD_USER_REQUEST, loadUser);
 }
 
+function* watchLoadSubscriber() {
+  yield takeLatest(LOAD_SUBSCRIBER_REQUEST, loadSubscriber);
+}
+
+function* watchLoadProducer() {
+  yield takeLatest(LOAD_PRODUCER_REQUEST, loadProducer);
+}
+
 function* watchChangeNickname() {
   yield takeLatest(CHANGE_NICKNAME_REQUEST, changeNickname);
 }
@@ -201,6 +249,8 @@ export default function* userSaga() {
     fork(watchLogout),
     fork(watchLoadMyInfo),
     fork(watchLoadUser),
+    fork(watchLoadSubscriber),
+    fork(watchLoadProducer),
     fork(watchChangeNickname),
     fork(watchSubscribe),
     fork(watchUnSubscribe)

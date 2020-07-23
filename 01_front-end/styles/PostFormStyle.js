@@ -12,6 +12,10 @@ export const Form = styled.form`
   }
 `;
 
+export const PreViewerArea = styled.div`
+  display: flex;
+`;
+
 export const ButtonArea = styled.div`
   display: flex;
   justify-content: space-between;

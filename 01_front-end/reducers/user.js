@@ -23,7 +23,13 @@ import {
   UNSUBSCRIBE_SUCCESS,
   UNSUBSCRIBE_FAILURE,
   SUBSCRIBE_SUCCESS,
-  SUBSCRIBE_FAILURE} from './constants/user';
+  SUBSCRIBE_FAILURE,
+  LOAD_SUBSCRIBER_REQUEST,
+  LOAD_SUBSCRIBER_SUCCESS,
+  LOAD_SUBSCRIBER_FAILURE,
+  LOAD_PRODUCER_REQUEST,
+  LOAD_PRODUCER_SUCCESS,
+  LOAD_PRODUCER_FAILURE} from './constants/user';
 
 const reducer = (state = initialState, action) => produce(state, draft => {
   switch(action.type) {
@@ -85,6 +91,34 @@ const reducer = (state = initialState, action) => produce(state, draft => {
     case LOAD_MY_INFO_FAILURE:
       draft.loadMyInfoLoading = false;
       draft.loadMyInfoError = action.error;
+      break;
+    case LOAD_SUBSCRIBER_REQUEST:
+      draft.loadSubscribersLoading = true;
+      draft.loadSubscribersError = null;
+      draft.loadSubscribesrDone = false;
+      break;
+    case LOAD_SUBSCRIBER_SUCCESS:
+      draft.loadSubscribersLoading = false;
+      draft.me.subscribers = action.data;
+      draft.loadSubscribersDone = true;
+      break;
+    case LOAD_SUBSCRIBER_FAILURE:
+      draft.loadSubscribersLoading = false;
+      draft.loadSubscribersError = action.error;
+      break;
+    case LOAD_PRODUCER_REQUEST:
+      draft.loadProducersLoading = true;
+      draft.loadProducersError = null;
+      draft.loadProducersDone = false;
+      break;
+    case LOAD_PRODUCER_SUCCESS:
+      draft.loadProducersLoading = false;
+      draft.me.producers = action.data;
+      draft.loadProducersDone = true;
+      break;
+    case LOAD_PRODUCER_FAILURE:
+      draft.loadProducersLoading = false;
+      draft.loadProducersError = action.error;
       break;
     case SUBSCRIBE_REQUEST:
       draft.subscribeLoading = true;

@@ -5,7 +5,7 @@ import useInput from '../customHooks/useInput';
 import { ADD_POST_REQUEST, UPLOAD_IMAGES_REQUEST, UPLOAD_VIDEO_REQUEST } from '../reducers/constants/post';
 import ImagePreViewer from './ImagePreViewer';
 import VideoPreViewer from './VideoPreViewer';
-import { Form, ButtonArea, CameraIcon, VideoIcon, SubmitIcon } from '../styles/PostFormStyle';
+import { Form, ButtonArea, CameraIcon, VideoIcon, SubmitIcon, PreViewerArea } from '../styles/PostFormStyle';
 
 const PostForm = () => {
   const { imagePaths, videoPaths, addPostDone } = useSelector(state => state.post);
@@ -115,7 +115,7 @@ const PostForm = () => {
           <SubmitIcon type="submit" onClick={onSubmitForm}><CloudUploadOutlined /> <span>登録</span></SubmitIcon>
         </div>
       </ButtonArea>
-      <div style={{display: 'flex'}}>
+      <PreViewerArea>
         {
           imagePaths.map((v, i) => {
             return (
@@ -130,7 +130,7 @@ const PostForm = () => {
             );
           })
         }
-      </div>
+      </PreViewerArea>
     </Form>
   );
 };

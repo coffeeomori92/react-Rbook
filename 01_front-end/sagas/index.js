@@ -5,7 +5,7 @@ import userSaga from './user';
 import postSaga from './post';
 import { BACK_END_URL } from '../config/config';
 
-axios.defaults.baseURL = BACK_END_URL || 'http://localhost:8080';
+axios.defaults.baseURL = BACK_END_URL;
 axios.defaults.withCredentials = true;
 
 console.log('axios.defaults.baseURL', axios.defaults.baseURL);

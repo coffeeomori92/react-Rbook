@@ -49,7 +49,7 @@ const UserProfile = () => {
               <ContentTitle>購読</ContentTitle>
             </a>
           </Link>
-          <div>{me.Subscriber.length}</div>
+          <div>{me.Producer.length}</div>
         </Content>
         <Content>
           <Link href="/profile">
@@ -57,7 +57,7 @@ const UserProfile = () => {
               <ContentTitle>リスナー</ContentTitle>
             </a>
           </Link>
-          <div>{me.Producer.length}</div>
+          <div>{me.Subscriber.length}</div>
         </Content>
       </Contents>
     </Profile>
