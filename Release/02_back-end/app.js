@@ -58,7 +58,7 @@ app.get('/', (req, res) => {
 app.use('/user', userRouter);
 app.use('/post', postRouter);
 app.use('/posts', postsRouter);
-app.use('/hashtag', hashtagRouter);
+app.use('/hashtag', hashtagRouter); 
 
 app.listen(80, () => {
   console.log('🎉 Server is running!');
