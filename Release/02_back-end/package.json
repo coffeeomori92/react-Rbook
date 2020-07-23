@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon",
-    "start": "pm2 start app"
+    "start": "pm2 start app.js"
   },
   "author": "coffeemori",
   "license": "ISC",
