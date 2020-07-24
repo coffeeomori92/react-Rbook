@@ -31,13 +31,18 @@ if(process.env.NODE_ENV === 'production') {
   app.use(morgan('combined'));
   app.use(hpp());
   app.use(helmet());
+  app.use(cors({
+    origin: ['http://reactrbook.com'],
+    credentials: true // 쿠키 전달
+  }));
 } else {
   app.use(morgan('dev'));
+  app.use(cors({
+    origin: true,
+    credentials: true,
+  }));
 }
-app.use(cors({
-  origin: ['http://localhost:3000', 'react-Rbook.com'],
-  credentials: true // 쿠키 전달
-}));
+
 app.use(express.static(path.join(__dirname, 'uploaded_images')));
 app.use(express.static(path.join(__dirname, 'uploaded_videos')));
 app.use(express.json()); // JSON 형식 해석
@@ -46,7 +51,12 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session({
   saveUninitialized: false,
   resave: false,
-  secret: process.env.COOKIE_SECRET
+  secret: process.env.COOKIE_SECRET,
+  cookie: {
+    httpOnly: true,
+    secure: false,
+    domain: process.env.NODE_ENV === 'production' && '.reactrbook.com'
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());

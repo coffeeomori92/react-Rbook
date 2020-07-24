@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
+const AWS = require('aws-sdk');
+const multerS3 = require('multer-s3');
 const { isLoggedIn } = require('./middlewares');
 const { Post, Hashtag, Video, Comment, Image, User } = require('../models');
 
@@ -21,17 +23,30 @@ try {
   console.log('✅ uploaded_videos is created');
 }
 
+AWS.config.update({
+  accessKeyId: process.env.S3_ACCESS_KEY_ID,
+  secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+  region:'ap-northeast-1'
+});
+
 const upload = multer();
 
 const upload_image = multer({
-  storage: multer.diskStorage({
-    destination(req, file, done) {
-      done(null, 'uploaded_images');
-    },
-    filename(req, file, done) { // image.png
-      const ext = path.extname(file.originalname); // 확장자 추출
-      const basename = path.basename(file.originalname, ext); // 이름 추출
-      done(null, `${basename}_${new Date().getTime() + ext}`);
+  // storage: multer.diskStorage({
+  //   destination(req, file, done) {
+  //     done(null, 'uploaded_images');
+  //   },
+  //   filename(req, file, done) { // image.png
+  //     const ext = path.extname(file.originalname); // 확장자 추출
+  //     const basename = path.basename(file.originalname, ext); // 이름 추출
+  //     done(null, `${basename}_${new Date().getTime() + ext}`);
+  //   }
+  // }),
+  storage: multerS3({
+    s3: new AWS.S3(),
+    bucket: 'react-rbook',
+    key(req, file, cb) {
+      cb(null, `original_images/${Date.now()}_${path.basename(file.originalname)}`)
     }
   }),
   limits: { fileSize: 20 * 1024 * 1024 } // 20MB
