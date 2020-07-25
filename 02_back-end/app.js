@@ -6,6 +6,8 @@ const cookieParser = require('cookie-parser');
 const passport = require('passport');
 const dotenv = require('dotenv');
 const morgan = require('morgan');
+const hpp = require('hpp');
+const helmet = require('helmet');
 
 const db = require('./models');
 const userRouter = require('./routes/user');
@@ -25,11 +27,23 @@ db.sequelize.sync()
   });
 passportConfig();
 
-app.use(morgan('dev'));
-app.use(cors({
-  origin: 'http://localhost:3000',
-  credentials: true // 쿠키 전달
-}));
+if(process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
+  app.use(morgan('combined'));
+  app.use(hpp());
+  app.use(helmet());
+  app.use(cors({
+    origin: 'https://reactrbook.com',
+    credentials: true
+  }));
+} else {
+  app.use(morgan('dev'));
+  app.use(cors({
+    origin: true,
+    credentials: true
+  }));
+}
+
 app.use(express.static(path.join(__dirname, 'uploaded_images')));
 app.use(express.static(path.join(__dirname, 'uploaded_videos')));
 app.use(express.json()); // JSON 형식 해석
