@@ -1,7 +1,11 @@
 import React, { useState, useCallback } from 'react';
+import { useDispatch } from 'react-redux';
 import { Container, Main, Header, Avatar, InitName, Nickname, BtnSubscriber, BtnProducer } from '../styles/ProfileContentToggleAreaStyle';
 
 const ProfilecontentToggleArea = ({ subscribers, producers }) => {
+  const dispatch = useDispatch();
+  const [subscribersLimit, setSubscribersLimet] = useState(10);
+  const [producersLimit, setProducersLimit] = useState(10);
   const [showSubscribers, setShowSubscribers] = useState(true);
   const [showProducers, setShowProducers] = useState(false);
 

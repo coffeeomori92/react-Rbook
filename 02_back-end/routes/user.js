@@ -49,8 +49,7 @@ router.get('/subscriber', isLoggedIn, async (req, res, next) => {
     }
     const subscribers = await user.getSubscriber({
       limit: parseInt(req.query.limit, 10),
-      attributes: ['id', 'nickname'],
-      order: [['createdAt', 'DESC']]
+      attributes: ['id', 'nickname']
     });
     res.status(200).json(subscribers);
   } catch(error) {
@@ -69,8 +68,7 @@ router.get('/producer', isLoggedIn, async (req, res, next) => {
     }
     const producer = await user.getProducer({
       limit: parseInt(req.query.limit, 10),
-      attributes: ['id', 'nickname'],
-      order: [['createdAt', 'DESC']]
+      attributes: ['id', 'nickname']
     });
     res.status(200).json(producer);
   } catch(error) {

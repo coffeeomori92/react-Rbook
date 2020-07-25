@@ -127,7 +127,7 @@ const reducer = (state = initialState, action) => produce(state, draft => {
       break;
     case SUBSCRIBE_SUCCESS:
       draft.subscribeLoading = false;
-      draft.me.Subscriber.push({ id: action.data.UserId });
+      draft.me.Producer.push({ id: action.data.UserId });
       draft.subscribeDone = true;
       draft.subscribeError = null;
       break;
@@ -143,7 +143,7 @@ const reducer = (state = initialState, action) => produce(state, draft => {
       break;
     case UNSUBSCRIBE_SUCCESS:
       draft.unSubscribeLoading = false;
-      draft.me.Subscriber = draft.me.Subscriber.filter((v) => v.id !== action.data.UserId);
+      draft.me.Producer = draft.me.Producer.filter((v) => v.id !== action.data.UserId);
       draft.unSubscribeDone = true;
       break;
     case UNSUBSCRIBE_FAILURE:

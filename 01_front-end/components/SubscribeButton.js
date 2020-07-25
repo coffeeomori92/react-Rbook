@@ -6,18 +6,18 @@ import { UNSUBSCRIBE_REQUEST, SUBSCRIBE_REQUEST } from '../reducers/constants/us
 const SubscribeButton = ({ post }) => {
   const dispatch = useDispatch();
   const { me } = useSelector(state => state.user);
-  const isSubscribing = me?.Subscriber.find(v => v.id === post.User.id);
+  const isSubscribing = me?.Producer.find(v => v.id === post.User.id);
   const onClickButton = useCallback(e => {
     if(isSubscribing) {
       dispatch({
         type: UNSUBSCRIBE_REQUEST,
         data: post.User.id
-      })
+      });
     } else {
       dispatch({
         type: SUBSCRIBE_REQUEST,
         data: post.User.id
-      })
+      });
     }
   }, [isSubscribing]);
   if(post.User.id === me.id) {

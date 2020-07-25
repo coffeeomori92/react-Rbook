@@ -52,7 +52,13 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session({
   saveUninitialized: false,
   resave: false,
-  secret: process.env.COOKIE_SECRET
+  secret: process.env.COOKIE_SECRET,
+  proxy: process.env.NODE_ENV === 'production' ? true : false,
+  cookie: {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production' ? true : false,
+    domain: process.env.NODE_ENV === 'production' && '.reactrbook.com'
+  }
 }));
 app.use(passport.initialize());
 app.use(passport.session());
