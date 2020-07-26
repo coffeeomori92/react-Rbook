@@ -19,6 +19,9 @@ const initialState = {
   loadMyInfoLoading: false,
   loadMyInfoDone: false,
   loadMyInfoError: null,
+  loadUserLoading: false,
+  loadUserDone: false,
+  loadUserError: null,
   loadSubscribersLoading: false,
   loadSubscribersDone: false,
   loadSubscribersError: null,
@@ -28,6 +31,9 @@ const initialState = {
   changeNicknameLoading: false,
   changeNicknameDone: false,
   changeNicknameError: null,
+  removeSubscriberLoading: false,
+  removeSubscriberDone: false,
+  removeSubscriberError: null
 };
 
 export default initialState;

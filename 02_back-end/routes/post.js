@@ -2,6 +2,8 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
+const AWS = require('aws-sdk');
+const multerS3 = require('multer-s3');
 const { isLoggedIn } = require('./middlewares');
 const { Post, Hashtag, Video, Comment, Image, User } = require('../models');
 
@@ -21,9 +23,29 @@ try {
   console.log('✅ uploaded_videos is created');
 }
 
+if(process.env.NODE_ENV === 'production') {
+  AWS.config.update({
+    accessKeyId: process.env.S3_ACCESS_KEY_ID,
+    secretAccessKey: process.env.S3_SECRET_ACCESS_KEY,
+    region: 'ap-northeast-1'
+  });
+}
+
 const upload = multer();
 
-const upload_image = multer({
+const upload_image =
+  process.env.NODE_ENV === 'production'
+  ? multer({
+    storage: multerS3({
+      s3: new AWS.S3(),
+      bucket: 'react-rbook',
+      key(req, file, cb) {
+        cb(null, `images/${Date.now()}_${path.basename(file.originalname)}`)
+      }
+    }),
+    imits: { fileSize: 20 * 1024 * 1024 } // 20MB
+  })
+  : multer({
   storage: multer.diskStorage({
     destination(req, file, done) {
       done(null, 'uploaded_images');
@@ -37,7 +59,18 @@ const upload_image = multer({
   limits: { fileSize: 20 * 1024 * 1024 } // 20MB
 });
 
-const upload_video = multer({
+const upload_video = 
+  process.env.NODE_ENV === 'production'
+  ? multer({
+    storage: multerS3({
+      s3: new AWS.S3(),
+      bucket: 'react-rbook',
+      key(req, file, cb) {
+        cb(null, `videos/${Date.now()}_${path.basename(file.originalname)}`)
+      }
+    })
+  })
+  : multer({
   storage: multer.diskStorage({
     destination(req, file, done) {
       done(null, 'uploaded_videos');
@@ -108,13 +141,20 @@ router.post('/', isLoggedIn, upload.none(), async (req, res, next) => {
 
 router.post('/images', isLoggedIn, upload_image.single('image'), (req, res, next) => {
   console.log(req.file);
-  res.json(req.file.filename);
-  // res.json(req.files.map(v => v.location.replace(/\/original\//, '/thumb/')));
+  if(process.env.NODE_ENV === 'production') {
+    res.json(req.file.location);
+  } else {
+    res.json(req.file.filename);
+  }
 });
 
 router.post('/video', isLoggedIn, upload_video.single('video'), (req, res, next) => {
   console.log(req.file);
-  res.json(req.file.filename);
+  if(process.env.NODE_ENV === 'production') {
+    res.json(req.file.location);
+  } else {
+    res.json(req.file.filename);
+  }
 });
 
 router.get('/:postId', async (req, res, next) => {

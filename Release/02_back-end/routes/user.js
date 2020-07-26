@@ -49,8 +49,7 @@ router.get('/subscriber', isLoggedIn, async (req, res, next) => {
     }
     const subscribers = await user.getSubscriber({
       limit: parseInt(req.query.limit, 10),
-      attributes: ['id', 'nickname'],
-      order: [['createdAt', 'DESC']]
+      attributes: ['id', 'nickname']
     });
     res.status(200).json(subscribers);
   } catch(error) {
@@ -69,8 +68,7 @@ router.get('/producer', isLoggedIn, async (req, res, next) => {
     }
     const producer = await user.getProducer({
       limit: parseInt(req.query.limit, 10),
-      attributes: ['id', 'nickname'],
-      order: [['createdAt', 'DESC']]
+      attributes: ['id', 'nickname']
     });
     res.status(200).json(producer);
   } catch(error) {
@@ -79,7 +77,7 @@ router.get('/producer', isLoggedIn, async (req, res, next) => {
   }
 });
 
-router.delete('/producer/:userId', isLoggedIn, async (req, res, next) => {
+router.delete('/subscriber/:userId', isLoggedIn, async (req, res, next) => {
   try {
     const user = await User.findOne({
       where: { id: req.params.userId }
@@ -87,7 +85,7 @@ router.delete('/producer/:userId', isLoggedIn, async (req, res, next) => {
     if(!user) {
       res.status(403).send('存在しないユーザです。');
     }
-    await user.removeProducer(req.user.id);
+    await user.removeSubscriber(req.user.id);
     res.status(200).json({ UserId: parseInt(req.params.userId, 10 )});
   } catch(error) {
     console.error(error);
@@ -176,6 +174,90 @@ router.patch('/nickname', isLoggedIn, async (req, res, next) => {
     next(error);
   }
 });
+
+router.get('/:userId', async (req, res, next) => {
+  try {
+    const fullUserWithoutPassword = await User.findOne({
+      where: { id: req.params.userId },
+      attributes: {
+        exclude: ['password']
+      },
+      include: [{
+        model: Post,
+        attributes: ['id'],
+      }, {
+        model: User,
+        as: 'Subscriber',
+        attributes: ['id'],
+      }, {
+        model: User,
+        as: 'Producer',
+        attributes: ['id'],
+      }]
+    })
+    if (fullUserWithoutPassword) {
+      const data = fullUserWithoutPassword.toJSON();
+      data.Posts = data.Posts.length;
+      data.Subscriber = data.Subscriber.length;
+      data.Producer = data.Producer.length;
+      res.status(200).json(data);
+    } else {
+      res.status(404).json('存在しないユーザです。');
+    }
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
+router.get('/:userId/posts', async (req, res, next) => {
+  try {
+    const where = { UserId: req.params.userId };
+    if (parseInt(req.query.lastId, 10)) {
+      where.id = { [Op.lt]: parseInt(req.query.lastId, 10)}
+    } 
+    const posts = await Post.findAll({
+      where,
+      limit: 10,
+      order: [['createdAt', 'DESC']],
+      include: [{
+        model: User,
+        attributes: ['id', 'nickname'],
+      }, {
+        model: Image,
+      }, {
+        model: Video,
+      }, {
+        model: Comment,
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname'],
+          order: [['createdAt', 'DESC']],
+        }],
+      }, {
+        model: User,
+        as: 'Likers',
+        attributes: ['id'],
+      }, {
+        model: Post,
+        as: 'SharedPost',
+        include: [{
+          model: User,
+          attributes: ['id', 'nickname'],
+        }, {
+          model: Image,
+        }, {
+          model: Video,
+        }]
+      }],
+    });
+    res.status(200).json(posts);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
+});
+
 
 // /user/subscribe
 router.patch('/:userId/subscribe', isLoggedIn, async (req, res, next) => {

@@ -10,3 +10,4 @@ export const loadProducerAPI = data => axios.get(`/user/producer?limit=${data}`)
 export const changeNicknameAPI = data => axios.patch('/user/nickname', data);
 export const subscribeAPI = data => axios.patch(`/user/${data}/subscribe`);
 export const unSubscribeAPI = data => axios.delete(`/user/${data}/subscribe`);
+export const removeSubscriberAPI = data => axios.delete(`/user/subscriber/${data}`);

@@ -32,7 +32,10 @@ import {
   REMOVE_VIDEO,
   LOAD_HASHTAG_POSTS_REQUEST,
   LOAD_HASHTAG_POSTS_SUCCESS,
-  LOAD_HASHTAG_POSTS_FAILURE
+  LOAD_HASHTAG_POSTS_FAILURE,
+  LOAD_USER_POSTS_REQUEST,
+  LOAD_USER_POSTS_SUCCESS,
+  LOAD_USER_POSTS_FAILURE
 } from './constants/post';
 
 const reducer = (state = initialState, action) => produce(state, draft => {
@@ -52,6 +55,22 @@ const reducer = (state = initialState, action) => produce(state, draft => {
       draft.loadPostsLoading = false;
       draft.loadPostsDone = false;
       draft.loadPostsError = action.error;
+      break;
+    case LOAD_USER_POSTS_REQUEST:
+      draft.loadUserPostsLoading = true;
+      draft.loadUserPostsDone = false;
+      draft.loadUserPostsError = null;
+      break;
+    case LOAD_USER_POSTS_SUCCESS:
+      draft.loadUserPostsLoading = false;
+      draft.loadUserPostsDone = true;
+      draft.mainPosts = draft.mainPosts.concat(action.data);
+      draft.hasMorePosts = action.data.length === 10;
+      break;
+    case LOAD_USER_POSTS_FAILURE:
+      draft.loadUserPostsLoading = false;
+      draft.loadUserPostsDone = false;
+      draft.loadUserPostsError = action.error;
       break;
     case LOAD_HASHTAG_POSTS_REQUEST:
       draft.loadHashtagPostsLoading = true;

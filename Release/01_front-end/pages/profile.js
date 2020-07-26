@@ -11,23 +11,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import ProfilecontentToggleArea from '../components/ProfileContentToggleArea';
 
 const Profile = () => {
-  const dispatch = useDispatch();
   const router = useRouter();
   const { me } = useSelector(state => state.user);
-  const [subscribersLimit, setSubscribersLimet] = useState(10);
-  const [producersLimit, setProducersLimit] = useState(10);
-
-  useEffect(() => {
-    dispatch({
-      type: LOAD_SUBSCRIBER_REQUEST, // リスナー
-      data: subscribersLimit
-    });
-    dispatch({
-      type: LOAD_PRODUCER_REQUEST, // 購読
-      data: producersLimit
-    });
-  }, [subscribersLimit, producersLimit]);
-
+  
   useEffect(() => {
     if(!(me && me.id)) {
       router.push('/');
@@ -45,7 +31,7 @@ const Profile = () => {
       </Head>
       <AppLayout>
         <EditNickname/>
-        <ProfilecontentToggleArea 
+          <ProfilecontentToggleArea
           subscribers={me.subscribers} 
           producers={me.producers}/>
       </AppLayout>
@@ -66,11 +52,11 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   });
   context.store.dispatch({
     type: LOAD_SUBSCRIBER_REQUEST,
-    data : 10
+    data: 30
   });
   context.store.dispatch({
     type: LOAD_PRODUCER_REQUEST,
-    data: 10
+    data: 30
   });
   context.store.dispatch(END);
   console.log('getServerSideProps_profile end');

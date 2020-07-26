@@ -29,7 +29,10 @@ import {
   LOAD_SUBSCRIBER_FAILURE,
   LOAD_SUBSCRIBER_SUCCESS,
   LOAD_PRODUCER_SUCCESS,
-  LOAD_PRODUCER_FAILURE
+  LOAD_PRODUCER_FAILURE,
+  REMOVE_SUBSCRIBER_REQUEST,
+  REMOVE_SUBSCRIBER_SUCCESS,
+  REMOVE_SUBSCRIBER_FAILURE
 } from '../reducers/constants/user';
 import { 
   signupAPI, 
@@ -41,7 +44,8 @@ import {
   unSubscribeAPI,
   subscribeAPI,
   loadProducerAPI,
-  loadSubscriberAPI} from './api/user';
+  loadSubscriberAPI,
+  removeSubscriberAPI} from './api/user';
 
 function* singup(action) {
   try {
@@ -202,6 +206,22 @@ function* unSubscribe(action) {
   }
 }
 
+function* removeSubscriber(action) {
+  try {
+    const result = yield call(removeSubscriberAPI, action.data);
+    yield put({
+      type: REMOVE_SUBSCRIBER_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    console.error(err);
+    yield put({
+      type: REMOVE_SUBSCRIBER_FAILURE,
+      error: err.response.data,
+    });
+  }
+}
+
 function* watchSignup() {
   yield takeLatest(SIGN_UP_REQUEST, singup);
 }
@@ -242,6 +262,10 @@ function* watchUnSubscribe() {
   yield takeLatest(UNSUBSCRIBE_REQUEST, unSubscribe);
 }
 
+function* watchRemoveSubscriber() {
+  yield takeLatest(REMOVE_SUBSCRIBER_REQUEST, removeSubscriber);
+}
+
 export default function* userSaga() {
   yield all([
     fork(watchSignup),
@@ -253,6 +277,7 @@ export default function* userSaga() {
     fork(watchLoadProducer),
     fork(watchChangeNickname),
     fork(watchSubscribe),
-    fork(watchUnSubscribe)
+    fork(watchUnSubscribe),
+    fork(watchRemoveSubscriber)
   ]);
 }

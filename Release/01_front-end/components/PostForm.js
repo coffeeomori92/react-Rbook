@@ -33,7 +33,6 @@ const PostForm = () => {
     imagePaths.forEach(v => formData.append('image', v));
     videoPaths.forEach(v => formData.append('video', v));
     formData.append('content', text);
-    console.log(formData);
     return dispatch({
       type: ADD_POST_REQUEST,
       data: formData

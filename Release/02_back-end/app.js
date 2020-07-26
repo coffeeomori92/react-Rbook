@@ -28,18 +28,19 @@ db.sequelize.sync()
 passportConfig();
 
 if(process.env.NODE_ENV === 'production') {
+  app.set('trust proxy', 1);
   app.use(morgan('combined'));
   app.use(hpp());
   app.use(helmet());
   app.use(cors({
-    origin: ['http://reactrbook.com'],
-    credentials: true // 쿠키 전달
+    origin: 'https://reactrbook.com',
+    credentials: true
   }));
 } else {
   app.use(morgan('dev'));
   app.use(cors({
     origin: true,
-    credentials: true,
+    credentials: true
   }));
 }
 
@@ -52,9 +53,10 @@ app.use(session({
   saveUninitialized: false,
   resave: false,
   secret: process.env.COOKIE_SECRET,
+  proxy: process.env.NODE_ENV === 'production' ? true : false,
   cookie: {
     httpOnly: true,
-    secure: false,
+    secure: process.env.NODE_ENV === 'production' ? true : false,
     domain: process.env.NODE_ENV === 'production' && '.reactrbook.com'
   }
 }));
@@ -68,8 +70,8 @@ app.get('/', (req, res) => {
 app.use('/user', userRouter);
 app.use('/post', postRouter);
 app.use('/posts', postsRouter);
-app.use('/hashtag', hashtagRouter); 
+app.use('/hashtag', hashtagRouter);
 
-app.listen(80, () => {
-  console.log('🎉 Server is running!');
+app.listen(8080, () => {
+  console.log('🎉 Listening on http://localhost:8080');
 });

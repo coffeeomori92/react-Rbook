@@ -1,6 +1,6 @@
-import React, { useState, useCallback } from 'react';
-import { useDispatch } from 'react-redux';
-
+import React, { useState, useCallback, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useRouter } from 'next/router';
 import { Form, ErrorMsg, Label, LabelLast, FlexDiv, ButtonWrapper } from '../styles/SignupFormStyle';
 import { SIGN_UP_REQUEST } from '../reducers/constants/user';
 
@@ -11,6 +11,8 @@ const SignupForm = () => {
   const [passwordCheck, setPasswordCheck] = useState('');
   const [passwordError, setPasswordError] = useState(false);
   const dispatch = useDispatch();
+  const { me, signupDone, signupError } = useSelector(state => state.user);
+  const router = useRouter();
 
   const onChangeEmail = useCallback(e => {
     setEmail(e.target.value);
@@ -28,6 +30,24 @@ const SignupForm = () => {
     setPasswordError(e.target.value !== password);
     setPasswordCheck(e.target.value);
   }, [password]);
+
+  useEffect(() => {
+    if(me && me.id) {
+      router.replace('/');
+    }
+  }, [me && me.id]);
+
+  useEffect(() => {
+    if(signupDone) {
+      router.replace('/');
+    }
+  }, [signupDone]);
+
+  useEffect(() => {
+    if(signupError) {
+      alert(signupError);
+    }
+  }, [signupError]);
 
   const onSubmitForm = useCallback(e => {
     e.preventDefault();
