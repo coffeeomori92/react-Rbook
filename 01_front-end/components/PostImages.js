@@ -1,12 +1,13 @@
 import React, { useState, useCallback } from 'react';
 import { ImgStyle } from '../styles/PostImagesStyle';
+import { IMG_URL } from '../config/config';
 
 const PostImages = ({ images }) => {
   return (
     <>
       <ImgStyle 
         role="presentation"
-        src={`http://localhost:8080/${images[0].src}`}
+        src={`${IMG_URL}${images[0].src}`}
         />
     </>
   );
