@@ -1,12 +1,12 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Container, Main, Header, Avatar, InitName, Nickname, BtnSubscriber, BtnProducer, AvatarCol1, AvatarCol2, BottomButtonArea } from '../styles/ProfileContentToggleAreaStyle';
-import { UNSUBSCRIBE_REQUEST, REMOVE_SUBSCRIBER_REQUEST } from '../reducers/constants/user';
+import { UNSUBSCRIBE_REQUEST, REMOVE_SUBSCRIBER_REQUEST, LOAD_SUBSCRIBER_REQUEST, LOAD_PRODUCER_REQUEST } from '../reducers/constants/user';
 
 const ProfilecontentToggleArea = ({ subscribers, producers}) => {
   const dispatch = useDispatch();
-  const [subscribersLimit, setSubscribersLimet] = useState(10);
-  const [producersLimit, setProducersLimit] = useState(10);
+  const [subscribersLimit, setSubscribersLimet] = useState(40);
+  const [producersLimit, setProducersLimit] = useState(40);
   const [showSubscribers, setShowSubscribers] = useState(false);
   const [showProducers, setShowProducers] = useState(true);
   
@@ -32,6 +32,22 @@ const ProfilecontentToggleArea = ({ subscribers, producers}) => {
     setShowProducers(true);
     setShowSubscribers(false);
   }, [showProducers, showSubscribers]);
+
+  const onClickLoadMore = useCallback(e => {
+    if(showSubscribers) {
+      setSubscribersLimet(prev => prev + 10);
+      dispatch({
+        type: LOAD_SUBSCRIBER_REQUEST,
+        data: subscribersLimit
+      });
+    } else if(showProducers) {
+      setProducersLimit(prev => prev + 10);
+      dispatch({
+        type: LOAD_PRODUCER_REQUEST,
+        data: producersLimit
+      });
+    }
+  }, [showSubscribers, showProducers, subscribersLimit, producersLimit]);
 
   return (
     <Container>
@@ -70,7 +86,7 @@ const ProfilecontentToggleArea = ({ subscribers, producers}) => {
             ))
           )
         }
-        <BottomButtonArea>
+        <BottomButtonArea onClick={onClickLoadMore}>
           <button>もっと見る</button>
         </BottomButtonArea>
       </Main>
