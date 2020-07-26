@@ -20,6 +20,10 @@ export const MenuLogo = styled.div`
   font-size: 23px;
 `;
 
+export const FlexBox = styled.div`
+  display: flex;
+`;
+
 export const MenuLogoImage = styled.a`
   margin-right: 10px;
 `;

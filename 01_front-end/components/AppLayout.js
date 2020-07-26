@@ -14,7 +14,7 @@ import {
   MenuRight,
   MenuRightAlign,
   MenuInputSearch,
-  SearchIcon,
+  FlexBox,
   LeftSide,
   MainContents,
   RightSide
@@ -25,10 +25,6 @@ const AppLayout = ({ children }) => {
   const { me } = useSelector(state => state.user);
   const router = useRouter();
   const path = router.pathname;
-
-  const onSearch = useCallback(() => {
-    router.push(`/hashtag/${searchInput}`);
-  }, [searchInput]);
 
   return (
     <>
@@ -52,7 +48,7 @@ const AppLayout = ({ children }) => {
           </MenuRightAlign>
         </MenuRight>
       </Menu>
-      <div style={{display: 'flex'}}>
+      <FlexBox>
       <LeftSide>
         { me && path !== '/signup' && <UserProfile />}
         { !me && path !== '/signup' && <LoginForm /> }
@@ -64,7 +60,7 @@ const AppLayout = ({ children }) => {
       <RightSide>
 
       </RightSide>
-      </div>
+      </FlexBox>
     </>
   );
 };

@@ -6,6 +6,7 @@ export const Container = styled.div`
   margin-top: 10px;
   height: 75vh;
   border-radius: 10px;
+  position: relative;
 `;
 
 export const Header = styled.div`
@@ -24,14 +25,31 @@ export const Header = styled.div`
 `;
 
 export const Main = styled.div`
-
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
 `;
 
 export const Avatar = styled.div`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 10px;
-  margin-top: 5px;
+  margin-top: 10px;
+`;
+
+export const AvatarCol1 = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+export const AvatarCol2 = styled.div`
+  button {
+    -webkit-appearance: none;
+    border: 1px solid #3c40c6;
+    padding: 3.5px 15px;
+    margin-right: 20px;
+    background-color: white;
+  }
 `;
 
 export const InitName = styled.div`
@@ -67,4 +85,10 @@ background-color: ${
 cursor: ${
     ({ showProducers }) => showProducers ? 'default' : 'pointer'
   };
+`;
+
+export const BottomButtonArea = styled.div`
+  position: absolute;
+  bottom: 30px;
+  right: 50%;
 `;

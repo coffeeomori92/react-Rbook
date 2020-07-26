@@ -29,7 +29,13 @@ import {
   LOAD_SUBSCRIBER_FAILURE,
   LOAD_PRODUCER_REQUEST,
   LOAD_PRODUCER_SUCCESS,
-  LOAD_PRODUCER_FAILURE} from './constants/user';
+  LOAD_PRODUCER_FAILURE,
+  REMOVE_SUBSCRIBER_REQUEST,
+  REMOVE_SUBSCRIBER_SUCCESS,
+  REMOVE_SUBSCRIBER_FAILURE,
+  LOAD_USER_REQUEST,
+  LOAD_USER_SUCCESS,
+  LOAD_USER_FAILURE} from './constants/user';
 
 const reducer = (state = initialState, action) => produce(state, draft => {
   switch(action.type) {
@@ -92,6 +98,20 @@ const reducer = (state = initialState, action) => produce(state, draft => {
       draft.loadMyInfoLoading = false;
       draft.loadMyInfoError = action.error;
       break;
+    case LOAD_USER_REQUEST:
+      draft.loadUserLoading = true;
+      draft.loadUserError = null;
+      draft.loadUserDone = false;
+      break;
+    case LOAD_USER_SUCCESS:
+      draft.loadUserLoading = false;
+      draft.userInfo = action.data;
+      draft.loadUserDone = true;
+      break;
+    case LOAD_USER_FAILURE:
+      draft.loadUserLoading = false;
+      draft.loadUserError = action.error;
+      break;
     case LOAD_SUBSCRIBER_REQUEST:
       draft.loadSubscribersLoading = true;
       draft.loadSubscribersError = null;
@@ -144,11 +164,31 @@ const reducer = (state = initialState, action) => produce(state, draft => {
     case UNSUBSCRIBE_SUCCESS:
       draft.unSubscribeLoading = false;
       draft.me.Producer = draft.me.Producer.filter((v) => v.id !== action.data.UserId);
+      if(draft.me.producers) {
+        draft.me.producers = draft.me.producers.filter((v) => v.id !== action.data.UserId);
+      }
       draft.unSubscribeDone = true;
       break;
     case UNSUBSCRIBE_FAILURE:
       draft.unSubscribeLoading = false;
       draft.unSubscribeError = action.error;
+      break;
+    case REMOVE_SUBSCRIBER_REQUEST:
+    draft.removeSubscriberLoading = true;
+    draft.removeSubscriberError = null;
+    draft.removeSubscriberDone = false;
+      break;
+    case REMOVE_SUBSCRIBER_SUCCESS:
+      draft.removeSubscriberLoading = false;
+      draft.me.Subscriber = draft.me.Subscriber.filter((v) => v.id !== action.data.UserId);
+      if(draft.me.subscribers) {
+        draft.me.subscribers = draft.me.subscribers.filter((v) => v.id !== action.data.UserId);
+      }
+      draft.removeSubscriberDone = true;
+      break;
+    case REMOVE_SUBSCRIBER_FAILURE:
+      draft.removeSubscriberLoading = false;
+      draft.removeSubscriberError = action.error;
       break;
     case CHANGE_NICKNAME_REQUEST:
       draft.changeNicknameLoading = true;

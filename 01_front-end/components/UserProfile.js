@@ -25,7 +25,7 @@ const UserProfile = () => {
     <Profile>
       <Avatar>
         <InitName>
-          <Link href={`/user/${me.id}`}>
+          <Link href={`/user/${me.id}`} prefetch={false}>
             <a>{me.nickname[0]}</a>
           </Link>
         </InitName>
@@ -44,19 +44,11 @@ const UserProfile = () => {
           <div>{me.Posts.length}</div>      
         </Content>
         <Content>
-          <Link href="/profile">
-            <a>
-              <ContentTitle>購読</ContentTitle>
-            </a>
-          </Link>
+          <ContentTitle>購読</ContentTitle>
           <div>{me.Producer.length}</div>
         </Content>
         <Content>
-          <Link href="/profile">
-            <a>
-              <ContentTitle>リスナー</ContentTitle>
-            </a>
-          </Link>
+          <ContentTitle>リスナー</ContentTitle>
           <div>{me.Subscriber.length}</div>
         </Content>
       </Contents>

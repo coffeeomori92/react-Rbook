@@ -23,7 +23,6 @@ const PostSettingForm = ({ me, post }) => {
         me && post.User.id === me
         ? (
           <SettingStyle>
-            <span>修正</span>
             <span onClick={onClickRemovePost}>削除</span>
           </SettingStyle>
         )

@@ -31,7 +31,7 @@ const Profile = () => {
       </Head>
       <AppLayout>
         <EditNickname/>
-        <ProfilecontentToggleArea 
+          <ProfilecontentToggleArea
           subscribers={me.subscribers} 
           producers={me.producers}/>
       </AppLayout>
@@ -52,11 +52,11 @@ export const getServerSideProps = wrapper.getServerSideProps(async (context) => 
   });
   context.store.dispatch({
     type: LOAD_SUBSCRIBER_REQUEST,
-    data: 10
+    data: 30
   });
   context.store.dispatch({
     type: LOAD_PRODUCER_REQUEST,
-    data: 10
+    data: 30
   });
   context.store.dispatch(END);
   console.log('getServerSideProps_profile end');
