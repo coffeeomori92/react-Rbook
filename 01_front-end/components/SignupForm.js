@@ -55,7 +55,6 @@ const SignupForm = () => {
       alert('パスワードを確認してください。')
       return setPasswordError(true);
     }
-    console.log(email, nickname, password, passwordCheck);
     return dispatch({
       type: SIGN_UP_REQUEST,
       data: {
