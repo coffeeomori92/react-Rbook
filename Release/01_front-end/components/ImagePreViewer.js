@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { useDispatch } from 'react-redux';
+import { IMG_URL } from '../config/config';
 import { Img, ImgContainer, Header, HeaderFlex } from '../styles/ImagePreViewerStyle';
 import { REMOVE_IMAGE } from '../reducers/constants/post';
 
@@ -21,7 +22,7 @@ const ImagePreViewer = ({ image, setHaveImage, index }) => {
           <div onClick={onRemoveImage}>削除</div>
         </HeaderFlex>
       </Header>
-      <Img src={`http://localhost:8080/${image}`} />
+      <Img src={`${IMG_URL}${image}`} />
     </ImgContainer>
   );
 };
