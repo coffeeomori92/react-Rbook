@@ -49,8 +49,7 @@ import {
 
 function* singup(action) {
   try {
-    const result = yield call(signupAPI,action.data);
-    console.log(result);
+    yield call(signupAPI,action.data);
     yield put({
       type: SIGN_UP_SUCCESS
     });
