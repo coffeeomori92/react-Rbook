@@ -7,7 +7,7 @@ const PostComment = ({ author, content, authorId }) => {
     <Comment>
       <Avatar>
         <InitName>
-          <Link href={`/user/${authorId}`}>
+          <Link href={`/user/${authorId}`} prefetch={false}>
             <a>{author[0]}</a>
           </Link>
         </InitName>

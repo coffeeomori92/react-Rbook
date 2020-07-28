@@ -36,7 +36,7 @@ const UserProfile = () => {
       </ButtonWrapper>
       <Contents>
         <Content>
-          <Link href={`/user/${me.id}`}>
+          <Link href={`/user/${me.id}`} prefetch={false}>
             <a>
               <ContentTitle>マイポスト</ContentTitle>
             </a>

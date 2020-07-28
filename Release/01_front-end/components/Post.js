@@ -70,7 +70,7 @@ const Post = ({ post }) => {
       {post.Video && (<PostVideo video={post.Video} />)}
       <Avatar>
         <InitName>
-          <Link href={`/user/${post.User.id}`}>
+          <Link href={`/user/${post.User.id}`} prefetch={false}>
             <a>{post.User.nickname[0]}</a>
           </Link>
         </InitName>

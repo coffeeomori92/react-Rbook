@@ -7,7 +7,7 @@ const PostContent = ({ postData }) => {
     <ContentArea>
       {postData.split(/(#[^\s#]+)/g).map((v, i) => {
         if(v.match(/(#[^\s#]+)/)) {
-          return <Link href={`/hashtag/${v.slice(1)}`} key={i}><HashtagStyle>{v}</HashtagStyle></Link>
+          return <Link href={`/hashtag/${v.slice(1)}`} key={i} prefetch={false}><HashtagStyle>{v}</HashtagStyle></Link>
         }
         return v;
       })}
