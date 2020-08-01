@@ -18,7 +18,7 @@ export const PreViewerArea = styled.div`
 
 export const ButtonArea = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   & > div{
     width: 300px;
     &:nth-child(2) {

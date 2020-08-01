@@ -100,7 +100,7 @@ const PostForm = () => {
             hidden/>
           <CameraIcon haveImage={haveImage} type="button" onClick={onClickImageUpload}><CameraOutlined /> <span>画像</span></CameraIcon>
         </div>
-        <div>
+        {/* <div>
           <input 
             type="file" 
             name="video"
@@ -109,7 +109,7 @@ const PostForm = () => {
             onChange={onChageVideo}
             hidden />
           <VideoIcon haveVideo={haveVideo} type="button" onClick={onClickVideoUpload}><VideoCameraAddOutlined /> <span>動画</span></VideoIcon>
-        </div>
+        </div> */}
         <div>
           <SubmitIcon type="submit" onClick={onSubmitForm}><CloudUploadOutlined /> <span>登録</span></SubmitIcon>
         </div>
