@@ -89,7 +89,7 @@ const Post = ({ post }) => {
           }
         </div>
         <div><CommentIcon onClick={onToggleComment} /></div>
-        <div><ShareAltOutlined /></div>
+         {/* <div><ShareAltOutlined /></div> */}
         <div><SettingIcon onClick={onToggleSetting} /></div>
         <div>
           {
